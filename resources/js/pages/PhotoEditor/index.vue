@@ -5,6 +5,8 @@
 </template>
 <script>
 import TopHeader from "@components/TopHeader.vue";
+import clickSfx from "@assets/sfx/click.mp3";
+import { useSound } from "@composables/useSound";
 
 export default {
     name: "PhotoEditor",
