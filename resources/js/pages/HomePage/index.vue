@@ -15,13 +15,15 @@
                 photos into awesome retro polaroids instantly without<br />
                 getting annoying sand in your shoes!
             </p>
-            <router-link 
-                to="/template-selection"
-                class="btn pink-button"
-                @click="playClickSound"
-            >
-                Start Session
-            </router-link>
+            <div class="btn-transition">
+                <router-link 
+                    to="/template-selection"
+                    class="btn pink-button"
+                    @click="playClickSound"
+                >
+                    Start Session
+                </router-link>
+            </div>
             <div class="polaroid-card card p-3 text-left">
                 Recent Polaroids
                 <p class="polaroid-card-placeholder text-center">
@@ -103,5 +105,21 @@ export default {
     display: block;
     margin-top: auto;
 }
-
+/*animation & transition*/
+.card.main-logo-card, .logo-title {
+    animation: fade-in-blur 0.6s ease 0.1s both;
+}
+.description {
+    animation: fade-in-blur 0.6s ease 0.3s both;
+}
+.btn-transition {
+    animation: fade-in-blur 0.6s ease 0.7s both;
+}
+.card.polaroid-card {
+    animation: fade-in-blur 0.6s ease 0.9s both;
+}
+@keyframes fade-in-blur {
+    from { opacity: 0; transform: translateY(15px); filter: blur(6px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
 </style>

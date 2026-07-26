@@ -192,7 +192,7 @@ export default {
     width: auto;
     height: 80px;
     top: 62%;
-    left: 25%;
+    left: 24.5%;
 }
 .template-element-3 {
     position: absolute;
@@ -200,6 +200,20 @@ export default {
     height: 110px;
     rotate: -20deg;
     top: 71%;
-    left: 25%;
+    left: 24.4%;
+}
+/*animation & transition*/
+.main-container {
+    animation: fade-in-blur 0.6s ease 0.5s both;
+}
+.template-element-1, .template-element-2, .template-element-3{
+    animation: fade-in-blur 0.6s ease both;
+}
+.template-element-1{ animation-delay: 0.7s; }
+.template-element-2{ animation-delay: 0.9s; }
+.template-element-3{ animation-delay: 0.11s; }
+@keyframes fade-in-blur {
+    from { opacity: 0; transform: translateY(15px); filter: blur(6px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 </style>
