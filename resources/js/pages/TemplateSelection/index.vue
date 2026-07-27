@@ -58,58 +58,58 @@
             />
         </div>
         <!--Image file picker-->
-        <input
+        <!--<input
         ref="fileInput"
         type="file"
         accept="image/jpeg,image/png,image/webp"
         class="d-none"
         @change="onFileSelected"
         @click="playClickSound"
-        />
+        />-->
         <!--Request camera access modal-->
-        <ConfirmModal
+        <!--<ConfirmModal
             :show="showPermissionModal"
             title="Permission to use camera"
             message="We need your permission to use your camera"
             confirm-text="Allow"
             @cancel="showPermissionModal= false"
             @confirm="requestCameraAccess"
-        />
+        />-->
         <!--No camera detection alert-->
-        <ConfirmModal
+        <!--<ConfirmModal
             :show="showNoCameraModal"
             title="No camera found"
             message="Please connect a camera device"
             confirm-text="Retry"
             @cancel="showNoCameraModal = false"
             @confirm="retryCameraDetection"
-        />
+        />-->
     </div>
 </template>
 
 <script>
 import TopHeader from "@components/TopHeader.vue";
 import TemplateCard from "@components/TemplateCard.vue";
-import ConfirmModal from "@components/modals/ConfirmModal.vue";
+/*import ConfirmModal from "@components/modals/ConfirmModal.vue";*/
 import templateElement1 from "@assets/images/templateselection-element-1.svg";
 import templateElement2 from "@assets/images/templateselection-element-2.svg";
 import templateElement3 from "@assets/images/templateselection-element-3.svg";
 import clickSfx from "@assets/sfx/click.mp3";
 import { useSound } from "@composables/useSound";
-import { useUploadPhoto } from "@composables/useUploadPhoto";
+/*import { useUploadPhoto } from "@composables/useUploadPhoto";*/
 
 export default {
     name: "TemplateSelection",
     components: {
         TopHeader,
         TemplateCard,
-        ConfirmModal,
+        /*ConfirmModal,*/
     },
     setup() {
         const { play: playClickSound } = useSound(clickSfx, 0.4);
-        const upload = useUploadPhoto();
+        /*const upload = useUploadPhoto();*/
         return {
-            playClickSound, upload
+            playClickSound, /*upload*/
         };
     },
     data() {
@@ -118,12 +118,12 @@ export default {
             templateElement2,
             templateElement3,
             activeTemplateId: null,
-            showPermissionModal: false,
-            showNoCameraModal: false,
+            /*showPermissionModal: false,
+            showNoCameraModal: false,*/
         };
     },
     methods: {
-        handleSnap(templateId) {
+        /*handleSnap(templateId) {
             this.showPermissionModal = true;
         },
         handleUpload(templateId) {
@@ -140,6 +140,18 @@ export default {
         },
         retryCameraDetection() {
             this.showNoCameraModal = false;
+        },*/
+        handleSnap(templateId) {
+            this.$router.push({
+                name: 'photoEditor',
+                query: { mode: 'camera', template: templateId },
+            });
+        },
+        handleUpload(templateId) {
+            this.$router.push({
+                name: 'photoEditor',
+                query: { mode: 'upload', template: templateId },
+            });
         },
     },
 };
