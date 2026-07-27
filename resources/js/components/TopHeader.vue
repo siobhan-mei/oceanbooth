@@ -6,8 +6,8 @@
                     <router-link
                         to="/"
                         class="btn white-button"
-                        aria-label="Back to home"
-                        @click="$emit('back-click')"
+                        aria-label="Go back"
+                        @click="handleBack"
                     >
                         <BackButton />
                     </router-link>
@@ -37,8 +37,22 @@ export default {
             default: "home",
             validator: (v) => ["home", "page"].includes(v),
         },
+        backTo: {
+            type: [String, Object],
+            default: null,
+        }
     },
     emits: ["back-click"],
+    methods: {
+        handleBack() {
+            this.$emit("back-click");
+            if (this.backTo) {
+                this.$router.push(this.backTo);
+            } else {
+                this.$router.back();
+            }
+        },
+    },
     data() {
         return { logo };
     },
