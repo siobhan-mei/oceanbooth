@@ -28,7 +28,7 @@ export default {
         return {
             photos: [],
         };
-    },
+    },  
     computed: {
         mode() {
             return this.$route.query.mode || 'camera';
