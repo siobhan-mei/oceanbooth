@@ -42,18 +42,18 @@
         </div>
         <div class="element-container">
             <img
-                :src="templateElement1"
-                class="template-element-1"
+                :src="templateSelectionDecor1"
+                class="template-decor-1"
                 alt="shell"
             />
             <img
-                :src="templateElement2"
-                class="template-element-2"
+                :src="templateSelectionDecor2"
+                class="template-decor-2"
                 alt="starfish"
             />
             <img
-                :src="templateElement3"
-                class="template-element-3"
+                :src="templateSelectionDecor3"
+                class="template-decor-3"
                 alt="turtle"
             />
         </div>
@@ -91,9 +91,9 @@
 import TopHeader from "@components/TopHeader.vue";
 import TemplateCard from "@components/TemplateCard.vue";
 /*import ConfirmModal from "@components/modals/ConfirmModal.vue";*/
-import templateElement1 from "@assets/images/templateselection-element-1.svg";
-import templateElement2 from "@assets/images/templateselection-element-2.svg";
-import templateElement3 from "@assets/images/templateselection-element-3.svg";
+import templateSelectionDecor1 from "@assets/images/template-selection-decor-1.svg";
+import templateSelectionDecor2 from "@assets/images/template-selection-decor-2.svg";
+import templateSelectionDecor3 from "@assets/images/template-selection-decor-3.svg";
 import clickSfx from "@assets/sfx/click.mp3";
 import { useSound } from "@composables/useSound";
 /*import { useUploadPhoto } from "@composables/useUploadPhoto";*/
@@ -114,9 +114,9 @@ export default {
     },
     data() {
         return {
-            templateElement1,
-            templateElement2,
-            templateElement3,
+            templateSelectionDecor1,
+            templateSelectionDecor2,
+            templateSelectionDecor3,
             activeTemplateId: null,
             /*showPermissionModal: false,
             showNoCameraModal: false,*/
@@ -191,7 +191,7 @@ export default {
     height: 100%;
     pointer-events: none;
 }
-.template-element-1 {
+.template-decor-1 {
     position: absolute;
     width: auto;
     height: 90px;
@@ -199,14 +199,14 @@ export default {
     top: 17%;
     left: 70%;
 }
-.template-element-2 {
+.template-decor-2 {
     position: absolute;
     width: auto;
     height: 80px;
     top: 62%;
     left: 24.5%;
 }
-.template-element-3 {
+.template-decor-3 {
     position: absolute;
     width: auto;
     height: 110px;
@@ -218,12 +218,12 @@ export default {
 .main-container {
     animation: fade-in-blur 0.6s ease 0.5s both;
 }
-.template-element-1, .template-element-2, .template-element-3{
+.template-decor-1, .template-decor-2, .template-decor-3{
     animation: fade-in-blur 0.6s ease both;
 }
-.template-element-1{ animation-delay: 0.7s; }
-.template-element-2{ animation-delay: 0.9s; }
-.template-element-3{ animation-delay: 0.11s; }
+.template-decor-1{ animation-delay: 0.7s; }
+.template-decor-2{ animation-delay: 0.9s; }
+.template-decor-3{ animation-delay: 0.11s; }
 @keyframes fade-in-blur {
     from { opacity: 0; transform: translateY(15px); filter: blur(6px); }
     to { opacity: 1; transform: translateY(0); filter: blur(0); }

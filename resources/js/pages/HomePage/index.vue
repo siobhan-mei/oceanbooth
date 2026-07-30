@@ -42,9 +42,9 @@ import FloatingPolaroids from "@components/FloatingPolaroids.vue";
 import NullIndicator from "@components/svgs/NullIndicator.vue";
 import logo from "@assets/images/logo.svg";
 import homeBg from "@assets/images/home-bg.svg";
-import homeElement1 from "@assets/images/home-element-1.svg";
-import homeElement2 from "@assets/images/home-element-2.svg";
-import homeElement3 from "@assets/images/home-element-3.svg";
+import homeFloatingPolaroid1 from "@assets/images/home-floating-polaroid-1.svg";
+import homeFloatingPolaroid2 from "@assets/images/home-floating-polaroid-2.svg";
+import homeFloatingPolaroid3 from "@assets/images/home-floating-polaroid-3.svg";
 import clickSfx from "@assets/sfx/click.mp3";
 import { useSound } from "@composables/useSound";
 
@@ -64,9 +64,9 @@ export default {
             logo,
             homeBg,
             imageData: [
-                { src: homeElement1, width: 370 },
-                { src: homeElement2, width: 370, marginLeft: -130, marginBottom: -220 },
-                { src: homeElement3, width: 370, marginLeft: -40 },
+                { src: homeFloatingPolaroid1, width: 370 },
+                { src: homeFloatingPolaroid2, width: 370, marginLeft: -130, marginBottom: -220 },
+                { src: homeFloatingPolaroid3, width: 370, marginLeft: -40 },
             ],
         };
     },
