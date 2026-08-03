@@ -6,5 +6,4 @@ export const FRAMES = [
     { id: 'frame-1', templateId: 1, src: defaultSingleFrame, name: 'Single'},
     { id: 'frame-2', templateId: 2, src: defaultDoubleFrame, name: 'Double'},
     { id: 'frame-3', templateId: 3, src: defaultTripleFrame, name: 'Triple'},
-
 ];
