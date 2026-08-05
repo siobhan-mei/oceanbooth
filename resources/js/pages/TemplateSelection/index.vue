@@ -57,59 +57,28 @@
                 alt="turtle"
             />
         </div>
-        <!--Image file picker-->
-        <!--<input
-        ref="fileInput"
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-        class="d-none"
-        @change="onFileSelected"
-        @click="playClickSound"
-        />-->
-        <!--Request camera access modal-->
-        <!--<ConfirmModal
-            :show="showPermissionModal"
-            title="Permission to use camera"
-            message="We need your permission to use your camera"
-            confirm-text="Allow"
-            @cancel="showPermissionModal= false"
-            @confirm="requestCameraAccess"
-        />-->
-        <!--No camera detection alert-->
-        <!--<ConfirmModal
-            :show="showNoCameraModal"
-            title="No camera found"
-            message="Please connect a camera device"
-            confirm-text="Retry"
-            @cancel="showNoCameraModal = false"
-            @confirm="retryCameraDetection"
-        />-->
     </div>
 </template>
 
 <script>
 import TopHeader from "@components/TopHeader.vue";
 import TemplateCard from "@components/TemplateCard.vue";
-/*import ConfirmModal from "@components/modals/ConfirmModal.vue";*/
 import templateSelectionDecor1 from "@assets/images/template-selection-decor-1.svg";
 import templateSelectionDecor2 from "@assets/images/template-selection-decor-2.svg";
 import templateSelectionDecor3 from "@assets/images/template-selection-decor-3.svg";
 import clickSfx from "@assets/sfx/click.mp3";
 import { useSound } from "@composables/useSound";
-/*import { useUploadPhoto } from "@composables/useUploadPhoto";*/
 
 export default {
     name: "TemplateSelection",
     components: {
         TopHeader,
         TemplateCard,
-        /*ConfirmModal,*/
     },
     setup() {
         const { play: playClickSound } = useSound(clickSfx, 0.4);
-        /*const upload = useUploadPhoto();*/
         return {
-            playClickSound, /*upload*/
+            playClickSound,
         };
     },
     data() {
@@ -118,29 +87,9 @@ export default {
             templateSelectionDecor2,
             templateSelectionDecor3,
             activeTemplateId: null,
-            /*showPermissionModal: false,
-            showNoCameraModal: false,*/
         };
     },
     methods: {
-        /*handleSnap(templateId) {
-            this.showPermissionModal = true;
-        },
-        handleUpload(templateId) {
-            this.activeTemplateId = templateId;
-            this.upload.reset();
-            this.$refs.fileInput.click();
-        },
-        onFileSelected(event) {
-            this.upload.handleInputChange(event);
-        },
-        requestCameraAccess() {
-            this.showPermissionModal = false;
-            this.showNoCameraModal = true;
-        },
-        retryCameraDetection() {
-            this.showNoCameraModal = false;
-        },*/
         handleSnap(templateId) {
             this.$router.push({
                 name: 'photoEditor',
