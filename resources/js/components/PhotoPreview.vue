@@ -1,5 +1,10 @@
 <template>
     <div class="photo-preview">
+        <h3
+            :class="headerPositionClass"
+        >
+            OceanBooth
+        </h3>
         <img :src="frameSrc" class="frame" alt="photo frame" />
         <div
             v-for="(slot, index) in slots"
@@ -7,17 +12,16 @@
             class="photo-slot"
             :style="{ top: slot.top, left: slot.left, width: slot.width, height: slot.height, transform: slot.transform }"
         >
-            {{ placeholderText }}
+            {{ placeholderText }} 
         </div>
         <button
             v-if="mode === 'camera'"
             class="btn pink-button camera-button"
             :class="buttonPositionClass"
-            :style="{ '--btn-rotation': buttonRotation}"
             aria-label="Snap photo"
             @click="$emit('snap', nextEmptyIndex)"
         >
-            <SnapPhoto />
+            <SnapPhoto style="margin-right: 4px"/> Snap
         </button>
     </div>
 </template>
@@ -29,9 +33,9 @@ import defaultTripleFrame from "@assets/images/photo-editor/frames/default-tripl
 import { useTemplateSlots } from "@composables/useTemplateSlots";
 
 const TEMPLATE_CONFIG = {
-    1: { frame: defaultSingleFrame, buttonClass: "camera-button--single", rotation: "0deg" },
-    2: { frame: defaultDoubleFrame, buttonClass: "camera-button--double", rotation: "8deg" },
-    3: { frame: defaultTripleFrame, buttonClass: "camera-button--triple", rotation: "-8deg" },
+    1: { frame: defaultSingleFrame, buttonClass: "camera-button--single", headerClass: "header--single" },
+    2: { frame: defaultDoubleFrame, buttonClass: "camera-button--double", headerClass: "header--double" },
+    3: { frame: defaultTripleFrame, buttonClass: "camera-button--triple", headerClass: "header--triple" },
 };
 
 export default {    
@@ -66,6 +70,9 @@ export default {
         buttonPositionClass() {
             return TEMPLATE_CONFIG[this.templateId]?.buttonClass ?? "camera-button--single";
         },
+        headerPositionClass() {
+            return TEMPLATE_CONFIG[this.templateId]?.headerClass ?? "header--single";
+        },
         slots() {
             return useTemplateSlots(this.templateId);
         },
@@ -73,9 +80,6 @@ export default {
             return this.mode === "camera"
             ? "Click to access camera"
             : "Click to upload image";
-        },
-        buttonRotation() {
-            return TEMPLATE_CONFIG[this.templateId]?.rotation ?? "0deg";
         },
     },
 };
@@ -92,29 +96,40 @@ export default {
 }
 .camera-button {
     position: absolute;
-    height: 50px;
+    height: 45px;
 }
 .camera-button--single {
-    bottom: 28%;
-    right: 44%;
+    bottom: 23%;
+    right: 40%;
 }
 .camera-button--double {
-    bottom: 13%;
-    right: 32%;
-    transform: rotate(var(--btn-rotation, 0deg));
-}
-.camera-button--double:active {
-    transform: translateY(4px) rotate(var(--btn-rotation, 0deg));
-    box-shadow: none;
+    bottom: 36%;
+    right: 63%;
 }
 .camera-button--triple {
-    bottom: 57%;
-    right: 66%;
-    transform: rotate(var(--btn-rotation, 0deg));
+    bottom: 50%;
+    right: 63%;
 }
-.camera-button--triple:active {
-    transform: translateY(4px) rotate(var(--btn-rotation, 0deg));
-    box-shadow: none;
+.header--single {
+    font-family: var(--font-cursive);
+    position: absolute;
+    top: 23%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.header--double {
+    font-family: var(--font-cursive);
+    position: absolute;
+    top: 40%;
+    left: 72%;
+    transform: rotate(7.8deg)
+}
+.header--triple {
+    font-family: var(--font-cursive);
+    position: absolute;
+    top: 27%;
+    left: 72%;
+    transform: rotate(7.5deg)
 }
 .photo-slot {
     position: absolute;
