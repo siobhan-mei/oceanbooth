@@ -11,8 +11,10 @@
             :key="index"
             class="photo-slot"
             :style="{ top: slot.top, left: slot.left, width: slot.width, height: slot.height, transform: slot.transform }"
+            @click="$emit('snap', index)"
         >
-            {{ placeholderText }} 
+            <img v-if="photos[index]" :src="photos[index]" class="uploaded-photo" alt="uploaded photo" />
+            <span v-else>{{ placeholderText }}</span>
         </div>
         <button
             v-if="mode === 'camera'"
@@ -140,7 +142,11 @@ export default {
     font-size: 0.75rem;
     color: #999;
     border: 1px dashed #aaa;
-    padding: 6px;
     box-sizing: border-box;
+}
+.uploaded-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 </style>
