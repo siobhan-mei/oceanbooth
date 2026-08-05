@@ -19,22 +19,19 @@ export function useUploadPhoto() {
     }
 
     function handleFile(file) {
-        error.value = null;
-
-        const validationError = validateFile(file);
-        if (validationError) {
-            error.value = validationError;
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = () => {
-            photo.value = reader.result;
-        };
-        reader.onerror = () => {
-            error.value = "Failed to read the image file.";
-        };
-        reader.readAsDataURL(file);
+        return new Promise((resolve, reject) => {
+            error.value = null;
+            const validationError = validateFile(file);
+            if (validationError) {
+                error.value = validationError;
+                reject(validationError);
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject("Failed to read the image file.");
+            reader.readAsDataURL(file);
+        });
     }
 
     function handleInputChange(event) {
