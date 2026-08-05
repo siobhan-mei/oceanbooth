@@ -73,7 +73,7 @@ export default {
     border: 1px solid black;
 }
 .logo-title {
-    font-family: "Cardo", serif;
+    font-family:  var(--font-sans);
     font-weight: 700;
     margin: 0;
 }
