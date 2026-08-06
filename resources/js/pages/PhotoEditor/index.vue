@@ -14,11 +14,18 @@
             class="d-none"
             @change="onFileSelected"
         />
+        <PhotoCropperModal
+            :show="showCropper"
+            :src="cropperSrc"
+            @cancel="onCropCancel"
+            @confirm="onCropConfirm"
+        />  
     </div>
 </template>
 <script>
 import TopHeader from "@components/TopHeader.vue";
 import PhotoPreview from "@components/PhotoPreview.vue";
+import PhotoCropperModal from "@components/modals/PhotoCropperModal.vue";
 import clickSfx from "@assets/sfx/click.mp3";
 import { useSound } from "@composables/useSound";
 import { useUploadPhoto } from "@composables/useUploadPhoto";
@@ -28,6 +35,7 @@ export default {
     components: {
         TopHeader,
         PhotoPreview,
+        PhotoCropperModal,
     },
     setup() {
         const { play: playClickSound } = useSound(clickSfx, 0.4);
@@ -38,6 +46,8 @@ export default {
         return {
             photos: [],
             pendingSlotIndex: null,
+            cropperSrc: null,
+            showCropper: false,
         };
     },
     computed: {
@@ -63,10 +73,22 @@ export default {
             if (!file) return;
 
             try {
-                const dataUrl = await this.upload.handleFile(file);
-                this.photos[this.pendingSlotIndex] = dataUrl;
+                this.cropperSrc = await this.upload.handleFile(file);
+                this.showCropper = true;
             } catch {}
         },
-    },
+        onCropConfirm(dataUrl) {
+            this.photos[this.pendingSlotIndex] = dataUrl;
+            this.resetCropper();
+        },
+        onCropCancel() {
+            this.resetCropper();
+        },
+        resetCropper() {
+            this.showCropper = false;
+            this.cropperSrc = null;
+            this.pendingSlotIndex = null;
+        },
+    },  
 };
 </script>
