@@ -10,12 +10,19 @@
             v-for="(slot, index) in slots"
             :key="index"
             class="photo-slot"
+            :class="{ 'photo-slot--filled': photos[index] }"
             :style="{ top: slot.top, left: slot.left, width: slot.width, height: slot.height, transform: slot.transform }"
             @click="$emit('snap', index)"
         >
             <img v-if="photos[index]" :src="photos[index]" class="uploaded-photo" alt="uploaded photo" />
             <span v-else>{{ placeholderText }}</span>
-        </div>
+
+            <div v-if="photos[index]" class="photo-slot-overlay">
+                <button class="btn pink-button" @click.stop="$emit('snap', index)">
+                    Re-upload
+                </button>
+            </div>
+        </div> 
         <button
             v-if="mode === 'camera'"
             class="btn pink-button camera-button"
@@ -143,6 +150,21 @@ export default {
     color: #999;
     border: 1px dashed #aaa;
     box-sizing: border-box;
+}
+.photo-slot-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+.photo-slot--filled:hover .photo-slot-overlay {
+    opacity: 1;
+    pointer-events: auto;
 }
 .uploaded-photo {
     width: 100%;
