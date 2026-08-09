@@ -1,5 +1,5 @@
 import defaultSingleFrame from "@assets/images/photo-editor/frames/default-single-frame.svg";
-import defaultSingleFrame from "@assets/images/photo-editor/frames/default-double-frame.svg";
+import defaultDoubleFrame from "@assets/images/photo-editor/frames/default-double-frame.svg";
 import defaultTripleFrame from "@assets/images/photo-editor/frames/default-triple-frame.svg";
 
 export const FRAMES = [

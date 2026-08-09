@@ -19,7 +19,7 @@
                     ref="cropperRef" 
                     class="cropper"
                     :src="src"
-                    :stencil-props="{ aspectRatio: 3 / 4 }"
+                    :stencil-props="{ aspectRatio: 1 / 1 }"
                 />
             </div>
 
