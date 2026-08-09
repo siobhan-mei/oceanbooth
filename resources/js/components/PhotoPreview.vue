@@ -14,7 +14,15 @@
             :style="{ top: slot.top, left: slot.left, width: slot.width, height: slot.height, transform: slot.transform }"
             @click="$emit('snap', index)"
         >
-            <img v-if="photos[index]" :src="photos[index]" class="uploaded-photo" alt="uploaded photo" />
+            <video
+                v-if="isLiveSlot(index)"
+                :ref="setVideoRef"
+                class="live-video"
+                autoplay
+                playsinline
+                muted
+            />
+            <img v-else-if="photos[index]" :src="photos[index]" class="uploaded-photo" alt="uploaded photo" />
             <span v-else>{{ placeholderText }}</span>
 
             <div v-if="photos[index]" class="photo-slot-overlay">
@@ -27,6 +35,7 @@
             v-if="mode === 'camera'"
             class="btn pink-button camera-button"
             :class="buttonPositionClass"
+            :disabled="!cameraReady"
             aria-label="Snap photo"
             @click="$emit('snap', nextEmptyIndex)"
         >
@@ -66,8 +75,27 @@ export default {
             type: Array,
             default: () => [],
         },
+        cameraReady: {
+            type: Boolean,
+            default: false,
+        },
+        activeSlotIndex: {
+            type: Number,
+            default: null,
+        }
     },
-    emits: ["snap"],
+    emits: ["snap", "video-ref"],
+    methods: {
+        isLiveSlot(index) {
+            return this.mode === "camera"
+                && this.cameraReady
+                && index === this.activeSlotIndex
+                && !this.photos[index];
+        },
+        setVideoRef(el) {
+            this.$emit("video-ref", el);
+        },
+    },
     computed: {
         nextEmptyIndex() {
             const index = this.photos.findIndex((p) => !p);
@@ -106,6 +134,12 @@ export default {
 .camera-button {
     position: absolute;
     height: 45px;
+}
+.camera-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    pointer-events: none;
 }
 .camera-button--single {
     bottom: 23%;
@@ -166,6 +200,11 @@ export default {
 .photo-slot--filled:hover .photo-slot-overlay {
     opacity: 1;
     pointer-events: auto;
+}
+.live-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 .uploaded-photo {
     width: 100%;
