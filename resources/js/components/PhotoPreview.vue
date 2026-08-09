@@ -71,7 +71,7 @@ export default {
     computed: {
         nextEmptyIndex() {
             const index = this.photos.findIndex((p) => !p);
-            return index === 1 ? this.photos.length : index;
+            return index === -1 ? this.photos.length : index;
         },
         frameSrc() {
             return TEMPLATE_CONFIG[this.templateId]?.frame ?? defaultSingleFrame;

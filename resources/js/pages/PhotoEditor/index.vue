@@ -44,7 +44,7 @@ export default {
     },
     data() {
         return {
-            photos: [],
+            photos: [null],
             pendingSlotIndex: null,
             cropperSrc: null,
             showCropper: false,
