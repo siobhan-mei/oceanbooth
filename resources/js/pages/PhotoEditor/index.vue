@@ -144,8 +144,8 @@ export default {
             this.showCameraNotFound = false;
             this.pendingSlotIndex = null;
         },
-        onVideoRef(el) {
-            if (el) this.camera.attach(el);
+        async onVideoRef(el) {
+            if (el) await this.camera.attach(el);
         },
         async onSnapClick() {
             if (!this.camera.isReady.value || this.isCapturing) return;
@@ -159,7 +159,7 @@ export default {
                 const completed = await this.camera.runCountdown(3);
                 if (!completed) break;
 
-                const dataUrl = this.camera.capture();
+                const dataUrl = await this.camera.capture();
                 if (dataUrl) this.photos[index] = dataUrl;
             }
             const nextEmpty = this.photos.findIndex((p) => !p);
@@ -174,7 +174,9 @@ export default {
             try {
                 this.cropperSrc = await this.upload.handleFile(file);
                 this.showCropper = true;
-            } catch {}
+            } catch {
+                // handleFile already sets upload.error; UI for it is a follow-up task
+            }
         },
         onCropConfirm(dataUrl) {
             this.photos[this.pendingSlotIndex] = dataUrl;

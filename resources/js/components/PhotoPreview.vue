@@ -141,7 +141,7 @@ export default {
     z-index: 5;
 }
 .camera-button:disabled {
-    opacity: 0.5;
+    background: #d8d8d8;
     cursor: not-allowed;
     box-shadow: none;
     pointer-events: none;
@@ -227,6 +227,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: scaleX(-1);
 }
 .uploaded-photo {
     width: 100%;

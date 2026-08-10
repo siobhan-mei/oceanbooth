@@ -30,19 +30,44 @@ export function useSnapPhoto() {
         }
     }
     
-    function attach(videoElement) {
+    async function attach(videoElement) {
         videoEl.value = videoElement;
         if (videoEl.value && stream.value) {
             videoEl.value.srcObject = stream.value;
+            try {
+                await videoEl.value.play();
+            } catch {
+                // AbortError is common if attach() fires again before play() resolves — safe to ignore
+            }
         }
     }
 
-    function capture() {
+    function waitForVideoReady(video, timeoutMs = 3000) {
+        if (video.readyState >= 2 && video.videoWidth && !video.paused) return Promise.resolve();
+        return new Promise((resolve) => {
+            const onReady = () => { cleanup(); resolve(); };
+            const timer = setTimeout(onReady, timeoutMs);
+            const cleanup = () => {
+                clearTimeout(timer);
+                video.removeEventListener("playing", onReady);
+            };
+            video.addEventListener("playing", onReady, { once: true });
+        });
+    }
+
+    async function capture() {
         if (!videoEl.value) return null;
+        await waitForVideoReady(videoEl.value);
         const canvas = document.createElement("canvas");
         canvas.width = videoEl.value.videoWidth;
         canvas.height = videoEl.value.videoHeight;
-        canvas.getContext("2d").drawImage(videoEl.value, 0, 0);
+        if (!canvas.width || !canvas.height) return null;
+
+        const ctx = canvas.getContext("2d");
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(videoEl.value, 0, 0);
+        
         return canvas.toDataURL("image/jpeg", 0.9);
     }
 
@@ -65,5 +90,5 @@ export function useSnapPhoto() {
         isReady.value = false;
     }
 
-    return { stream, isReady, error, countdown, requestCameraAccess, attach, capture, stop }
+    return { stream, isReady, error, countdown, requestCameraAccess, attach, capture, runCountdown, stop }
 }

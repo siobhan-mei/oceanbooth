@@ -7,7 +7,7 @@ const TEMPLATE_SLOTS = {
         { top: "48%", left: "44%", width: "46%", height: "27.8%", transform: "rotate(7.8deg)" },
     ],
     3: [
-        { top: "3.8%", left: "8.7%", width: "46%", height: "27.8%", transform: "rotate(-7.2deg)" },
+        { top: "3.6%", left: "8.7%", width: "46%", height: "27.8%", transform: "rotate(-7.2deg)" },
         { top: "34.6%", left: "44.2%", width: "46%", height: "27.8%", transform: "rotate(7.5deg)" },
         { top: "64.1%", left: "12.1%", width: "46%", height: "27.8%" },
     ],
