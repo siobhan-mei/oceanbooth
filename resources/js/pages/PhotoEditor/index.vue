@@ -7,7 +7,10 @@
             :photos="photos"
             :camera-ready="camera.isReady.value"
             :activeSlotIndex="pendingSlotIndex"
+            :countdown="camera.countdown.value"
+            :is-capturing="isCapturing"
             @snap="onSlotSelected"
+            @start-capture="onSnapClick"
             @video-ref="onVideoRef"
         />
         <input
@@ -82,6 +85,7 @@ export default {
             showCameraPermission: false,
             showCameraDenied: false,
             showCameraNotFound: false,
+            isCapturing: false,
         };
     },
     computed: {
@@ -112,18 +116,8 @@ export default {
             if (!this.camera.isReady.value) {
                 this.pendingSlotIndex = index;
                 this.showCameraPermission = true;
-                return;
             }
 
-            if (this.pendingSlotIndex === index) {
-                const dataUrl = this.camera.capture();
-                if (dataUrl) {
-                    this.photos[index] = dataUrl;
-                    this.pendingSlotIndex = null;
-                }
-            } else {
-                this.pendingSlotIndex = index;
-            }
         },
         async onCameraPermissionConfirm() {
             this.showCameraPermission = false;
@@ -134,7 +128,9 @@ export default {
                 } else {
                     this.showCameraDenied = true;
                 }
+                return;
             }
+            this.pendingSlotIndex = this.photos.findIndex((p) => !p);
         },
         onCameraPermissionCancel () {
             this.showCameraPermission = false;
@@ -150,6 +146,25 @@ export default {
         },
         onVideoRef(el) {
             if (el) this.camera.attach(el);
+        },
+        async onSnapClick() {
+            if (!this.camera.isReady.value || this.isCapturing) return;
+            this.isCapturing = true;
+            for (let index = 0; index < this.photos.length; index++) {
+                if (this.photos[index]) continue;
+
+                this.pendingSlotIndex = index;
+                await this.$nextTick();
+
+                const completed = await this.camera.runCountdown(3);
+                if (!completed) break;
+
+                const dataUrl = this.camera.capture();
+                if (dataUrl) this.photos[index] = dataUrl;
+            }
+            const nextEmpty = this.photos.findIndex((p) => !p);
+            this.pendingSlotIndex = nextEmpty === -1 ? null : nextEmpty;
+            this.isCapturing = false;
         },
         async onFileSelected(event) {
             const file = event.target.files?.[0];

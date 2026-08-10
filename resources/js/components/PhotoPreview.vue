@@ -14,14 +14,10 @@
             :style="{ top: slot.top, left: slot.left, width: slot.width, height: slot.height, transform: slot.transform }"
             @click="$emit('snap', index)"
         >
-            <video
-                v-if="isLiveSlot(index)"
-                :ref="setVideoRef"
-                class="live-video"
-                autoplay
-                playsinline
-                muted
-            />
+            <div v-if="isLiveSlot(index)" class="video-wrapper">
+                <video :ref="setVideoRef" class="live-video" autoplay playsinline muted />
+                <div v-if="countdown > 0" class="countdown-overlay">{{ countdown }}</div>
+            </div>
             <img v-else-if="photos[index]" :src="photos[index]" class="uploaded-photo" alt="uploaded photo" />
             <span v-else>{{ placeholderText }}</span>
 
@@ -35,9 +31,9 @@
             v-if="mode === 'camera'"
             class="btn pink-button camera-button"
             :class="buttonPositionClass"
-            :disabled="!cameraReady"
+            :disabled="!cameraReady || isCapturing"
             aria-label="Snap photo"
-            @click="$emit('snap', nextEmptyIndex)"
+            @click="$emit('start-capture')"
         >
             <SnapPhoto style="margin-right: 4px"/> Snap
         </button>
@@ -82,9 +78,17 @@ export default {
         activeSlotIndex: {
             type: Number,
             default: null,
+        },
+        countdown: {
+            type: Number,
+            default: 0,
+        },
+        isCapturing: {
+            type: Boolean,
+            default: false,
         }
     },
-    emits: ["snap", "video-ref"],
+    emits: ["snap", "start-capture", "video-ref"],
     methods: {
         isLiveSlot(index) {
             return this.mode === "camera"
@@ -134,6 +138,7 @@ export default {
 .camera-button {
     position: absolute;
     height: 45px;
+    z-index: 5;
 }
 .camera-button:disabled {
     opacity: 0.5;
@@ -184,6 +189,7 @@ export default {
     color: #999;
     border: 1px dashed #aaa;
     box-sizing: border-box;
+    z-index: 1;
 }
 .photo-slot-overlay {
     position: absolute;
@@ -200,6 +206,22 @@ export default {
 .photo-slot--filled:hover .photo-slot-overlay {
     opacity: 1;
     pointer-events: auto;
+}
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.countdown-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.35);
 }
 .live-video {
     width: 100%;

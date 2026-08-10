@@ -5,6 +5,7 @@ export function useSnapPhoto() {
     const videoEl = ref(null);
     const isReady = ref(false);
     const error = ref(null);
+    const countdown = ref(0);
 
     function mapError(err) {
         if (err.name === "NotFoundError" || err.name === "OverconstrainedError") {
@@ -45,11 +46,24 @@ export function useSnapPhoto() {
         return canvas.toDataURL("image/jpeg", 0.9);
     }
 
+    function wait(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function runCountdown(seconds = 3) {
+        for (let i = seconds; i > 0; i--) {
+            countdown.value = i;
+            await wait(1000);
+        }
+        countdown.value = 0;
+        return true;
+    }
+
     function stop() {
         stream.value?.getTracks().forEach((track) => track.stop());
         stream.value = null;
         isReady.value = false;
     }
 
-    return { stream, isReady, error, requestCameraAccess, attach, capture, stop }
+    return { stream, isReady, error, countdown, requestCameraAccess, attach, capture, stop }
 }
