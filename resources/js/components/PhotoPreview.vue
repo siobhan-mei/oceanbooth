@@ -19,16 +19,16 @@
                 <div v-if="countdown > 0" class="countdown-overlay">{{ countdown }}</div>
             </div>
             <img v-else-if="photos[index]" :src="photos[index]" class="uploaded-photo" alt="uploaded photo" />
-            <span v-else>{{ placeholderText }}</span>
+            <span v-else>{{ emptySlotPlaceholderText }}</span>
 
             <div v-if="photos[index]" class="photo-slot-overlay">
                 <button class="btn pink-button" @click.stop="$emit('snap', index)">
-                    Re-upload
+                    {{filledSlotPlaceholderText}}
                 </button>
             </div>
         </div> 
         <button
-            v-if="mode === 'camera'"
+            v-if="mode === 'camera' && nextEmptyIndex < photos.length && !isRetaking"
             class="btn pink-button camera-button"
             :class="buttonPositionClass"
             :disabled="!cameraReady || isCapturing"
@@ -86,6 +86,10 @@ export default {
         isCapturing: {
             type: Boolean,
             default: false,
+        },
+        isRetaking: {
+            type: Boolean,
+            default: false,
         }
     },
     emits: ["snap", "start-capture", "video-ref"],
@@ -117,10 +121,15 @@ export default {
         slots() {
             return useTemplateSlots(this.templateId);
         },
-        placeholderText() {
+        emptySlotPlaceholderText() {
             return this.mode === "camera"
             ? "Click to access camera"
             : "Click to upload image";
+        },
+        filledSlotPlaceholderText() {
+            return this.mode === "camera"
+            ? "Re-snap"
+            : "Re-upload";
         },
     },
 };

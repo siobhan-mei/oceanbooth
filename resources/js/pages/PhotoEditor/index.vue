@@ -9,6 +9,7 @@
             :activeSlotIndex="pendingSlotIndex"
             :countdown="camera.countdown.value"
             :is-capturing="isCapturing"
+            :is-retaking="isRetaking"
             @snap="onSlotSelected"
             @start-capture="onSnapClick"
             @video-ref="onVideoRef"
@@ -86,6 +87,7 @@ export default {
             showCameraDenied: false,
             showCameraNotFound: false,
             isCapturing: false,
+            isRetaking: false,
         };
     },
     computed: {
@@ -106,7 +108,7 @@ export default {
         },
     },
     methods: {
-        onSlotSelected(index) {
+        async onSlotSelected(index) {
             if (this.mode === "upload"){
                 this.pendingSlotIndex = index;
                 this.$refs.fileInput.click();
@@ -116,8 +118,22 @@ export default {
             if (!this.camera.isReady.value) {
                 this.pendingSlotIndex = index;
                 this.showCameraPermission = true;
+                return;
             }
 
+            if (this.photos[index]) {
+                // Retake: single slot only, no auto-advance
+                if (this.isCapturing) return;
+                this.isCapturing = true;
+                this.isRetaking = true;
+                this.photos[index] = null;
+                await this.captureSlot(index);
+                this.isRetaking = false;
+                this.isCapturing = false;   
+            } else {
+                // Empty slot clicked: reuse the existing auto-loop
+                this.onSnapClick();
+            }
         },
         async onCameraPermissionConfirm() {
             this.showCameraPermission = false;
@@ -165,6 +181,15 @@ export default {
             const nextEmpty = this.photos.findIndex((p) => !p);
             this.pendingSlotIndex = nextEmpty === -1 ? null : nextEmpty;
             this.isCapturing = false;
+        },
+        async captureSlot(index) {
+            this.pendingSlotIndex = index;
+            await this.$nextTick();
+            const completed = await this.camera.runCountdown(3);
+            if (!completed) return false;
+            const dataUrl = await this.camera.capture();
+            if (dataUrl) this.photos[index] = dataUrl;
+            return true;
         },
         async onFileSelected(event) {
             const file = event.target.files?.[0];
