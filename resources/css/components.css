@@ -67,4 +67,22 @@
     padding-bottom: 8px;
     transform: translateY(4px);
 }
+.btn.blue-button {
+    color: black;
+    background: var(--color-secondary-btn-container, #c8e6ea);
+    border: 1px solid black;
+    box-shadow: 0 4px 0px rgba(0, 0, 0, 0.319);
+    border-radius: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+.btn.blue-button:active {
+    color: black;
+    background: var(--color-secondary-btn-container, #c8e6ea);
+    border: 1px solid black;
+    box-shadow: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    transform: translateY(4px);
+}
 
