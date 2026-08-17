@@ -69,7 +69,7 @@
 }
 .btn.blue-button {
     color: black;
-    background: var(--color-secondary-btn-container, #c8e6ea);
+    background: var(--color-main-btn-container, #e6f6f8);
     border: 1px solid black;
     box-shadow: 0 4px 0px rgba(0, 0, 0, 0.319);
     border-radius: 15px;
@@ -78,7 +78,7 @@
 }
 .btn.blue-button:active {
     color: black;
-    background: var(--color-secondary-btn-container, #c8e6ea);
+    background: var(--color-main-btn-container, #e6f6f8);
     border: 1px solid black;
     box-shadow: none;
     padding-top: 8px;

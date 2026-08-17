@@ -1,19 +1,22 @@
 <template>
     <div class="main-bg">
         <TopHeader variant="page" @back-click="playClickSound" />
-        <PhotoPreview
-            :mode="mode"
-            :template-id="templateId"
-            :photos="photos"
-            :camera-ready="camera.isReady.value"
-            :activeSlotIndex="pendingSlotIndex"
-            :countdown="camera.countdown.value"
-            :is-capturing="isCapturing"
-            :is-retaking="isRetaking"
-            @snap="onSlotSelected"
-            @start-capture="onSnapClick"
-            @video-ref="onVideoRef"
-        />
+        <div class="d-flex flex-row">
+            <PhotoPreview
+                :mode="mode"
+                :template-id="templateId"
+                :photos="photos"
+                :camera-ready="camera.isReady.value"
+                :activeSlotIndex="pendingSlotIndex"
+                :countdown="camera.countdown.value"
+                :is-capturing="isCapturing"
+                :is-retaking="isRetaking"
+                @snap="onSlotSelected"
+                @start-capture="onSnapClick"
+                @video-ref="onVideoRef"
+            />
+            <EditorPanel />
+        </div>
         <input
             ref="fileInput"
             type="file"
@@ -55,6 +58,7 @@
 <script>
 import TopHeader from "@components/TopHeader.vue";
 import PhotoPreview from "@components/PhotoPreview.vue";
+import EditorPanel from "@components/EditorPanel.vue";
 import PhotoCropperModal from "@components/modals/PhotoCropperModal.vue";
 import ConfirmModal from "@components/modals/ConfirmModal.vue";
 import clickSfx from "@assets/sfx/click.mp3";
@@ -67,6 +71,7 @@ export default {
     components: {
         TopHeader,
         PhotoPreview,
+        EditorPanel,
         PhotoCropperModal,
         ConfirmModal,
     },
@@ -221,3 +226,10 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.main-bg {
+    display: flex;
+    align-items: center;
+}
+</style>

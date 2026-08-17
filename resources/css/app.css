@@ -44,8 +44,8 @@
 
     /* semantic */
     --color-bg: var(--color-cream-50);
-    --color-main-container: var(--color-ocean-100);
-    --color-secondary-btn-container: var(--color-ocean-200);
+    --color-main-btn-container: var(--color-ocean-100);
+    --color-secondary-container: var(--color-ocean-200);
     --color-primary-btn: var(--color-pink-100);
     --color-secondary-btn: var(--color-white);
 }
