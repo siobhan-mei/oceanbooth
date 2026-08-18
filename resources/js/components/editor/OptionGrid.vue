@@ -7,7 +7,10 @@
                 :key="item.id"
                 class="option-box"
             >
-                <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.name" />
+                <img 
+                v-if="item.thumbnail" 
+                :src="item.thumbnail"
+                :alt="item.name" />
             </button>
         </div>
     </div>

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { EDITOR_FRAMES } from "@/config/editorFrames";
+import { EDITOR_FRAMES } from "@/config/editorFrames.js";
 import OptionGrid from "@components/editor/OptionGrid.vue";
 import PreviewButton from "@components/svgs/PreviewButton.vue";
 
