@@ -83,7 +83,7 @@ export default {
     margin-bottom: 8%;
 }
 .pink-button {
-    margin-bottom: 30%;
+    margin-bottom: 120%;
 }
 .polaroid-card {
     border-radius: 15px;
@@ -111,6 +111,7 @@ export default {
 }
 .description {
     animation: fade-in-blur 0.6s ease 0.3s both;
+    font-size: 0.9rem;
 }
 .btn-transition {
     animation: fade-in-blur 0.6s ease 0.7s both;

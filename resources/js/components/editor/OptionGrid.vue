@@ -29,6 +29,9 @@
 </script>
 
 <style scoped>
+.option-grid-title {
+    font-size: 0.90rem;
+}
 .option-grid-boxes {
     display: flex;
     gap: 12px;
@@ -40,7 +43,7 @@
     background: var(--color-secondary-container, #c8e6ea);
     box-sizing: border-box;
     border: 1px solid transparent;
-    border-radius: 12px;
+    border-radius: 20px;
     padding: 0;
     overflow: hidden;
     cursor: pointer;

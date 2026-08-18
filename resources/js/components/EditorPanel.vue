@@ -5,6 +5,7 @@
         </button>
 
         <OptionGrid 
+        class="option-grid"
         title="Frames"
         :items="EDITOR_FRAMES"
         />
@@ -48,7 +49,7 @@ export default {
     flex-direction: column;
     align-self: center;
     width: 350px;
-    height: 600px;
+    height: 570px;
     padding: 40px;
     border: 1px solid black;
     box-shadow: 0 6px 0px rgba(0, 0, 0, 0.319);
@@ -60,5 +61,8 @@ export default {
 .btn.blue-button {
     align-self: flex-end;
 }
-
+.datestamp-text {
+    margin-top: 10px;
+    font-size: 0.90rem;
+}
 </style>
