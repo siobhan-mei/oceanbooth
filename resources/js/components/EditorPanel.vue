@@ -3,16 +3,41 @@
         <button class="btn blue-button">
             <PreviewButton class= "me-1" /> Preview here
         </button>
+
+        <OptionGrid 
+        title="Frames"
+        :items="EDITOR_FRAMES"
+        />
+
+        <OptionGrid 
+        title="Filters"
+        :items="EDITOR_FRAMES"
+        />
+
+        <OptionGrid 
+        title="Stickers"
+        :items="EDITOR_FRAMES"
+        />
+
+        <p class="datestamp-text">Add datestamp to images</p>
     </div>
 </template>
 
 <script>
+import { EDITOR_FRAMES } from "@/config/editorFrames";
+import OptionGrid from "@components/editor/OptionGrid.vue";
 import PreviewButton from "@components/svgs/PreviewButton.vue";
 
 export default {
     name: "EditorPanel",
     components: {
+        OptionGrid,
         PreviewButton,
+    },
+    data() {
+        return{
+            EDITOR_FRAMES,
+        };
     }
 }
 </script>
@@ -22,8 +47,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-self: center;
-    width: 390px;
-    height: 450px;
+    width: 350px;
+    height: 600px;
     padding: 40px;
     border: 1px solid black;
     box-shadow: 0 6px 0px rgba(0, 0, 0, 0.319);
@@ -32,7 +57,7 @@ export default {
     flex-shrink: 0;
     margin-left: 25px;
 }
-.btn.blue-button{
+.btn.blue-button {
     align-self: flex-end;
 }
 
