@@ -1,7 +1,7 @@
 <template>
     <div class="option-grid">
         <p class="option-grid-title">{{ title }}</p>
-        <div class="option-grid-boxes">
+        <div class="option-grid-boxes" :class="{ 'option-grid-boxes--scroll': scrollable }">
             <button
                 v-for="item in items"
                 :key="item.id"
@@ -23,6 +23,7 @@
             title: { type: String, required: true },
             items: { type: Array, required: true },
             selectedId: { type: [String, Number], default: null},
+            scrollable: { type: Boolean, required: false },
         },
         emits: ["select"],
     }
@@ -36,6 +37,7 @@
     display: flex;
     gap: 12px;
     margin-bottom: 20px;
+    --option-box-size: 82px;
 }
 .option-box {
     flex: 1;
@@ -60,5 +62,19 @@
 .option-box--selected {
     outline: 2px solid var(--color-primary-btn, #ffe5eb);
     outline-offset: 2px;
+}
+.option-grid-boxes--scroll {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type:  x mandatory;
+    scrollbar-width: none;    
+}
+.option-grid-boxes--scroll::-webkit-scrollbar {
+    display: none;
+}
+.option-grid-boxes--scroll .option-box {
+    flex: 0 0 auto; 
+    width: var(--option-box-size);
+    scroll-snap-align: start;
 }
 </style>

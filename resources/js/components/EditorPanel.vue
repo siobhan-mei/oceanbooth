@@ -17,7 +17,8 @@
 
         <OptionGrid 
         title="Stickers"
-        :items="EDITOR_FRAMES"
+        :items="EDITOR_STICKERS"
+        scrollable
         />
 
         <p class="datestamp-text">Add datestamp to images</p>
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-import { EDITOR_FRAMES } from "@/config/editorFrames.js";
+import { EDITOR_FRAMES, EDITOR_STICKERS } from "@/config/editorFrames.js";
 import OptionGrid from "@components/editor/OptionGrid.vue";
 import PreviewButton from "@components/svgs/PreviewButton.vue";
 
@@ -37,7 +38,7 @@ export default {
     },
     data() {
         return{
-            EDITOR_FRAMES,
+            EDITOR_FRAMES, EDITOR_STICKERS
         };
     }
 }
