@@ -61,8 +61,8 @@ export default {
 }
 .btn.blue-button {
     align-self: flex-end;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 .datestamp-text {
     margin-top: 10px;
