@@ -57,8 +57,8 @@
 </template>
 <script>
 import TopHeader from "@components/TopHeader.vue";
-import PhotoPreview from "@components/PhotoPreview.vue";
-import EditorPanel from "@components/EditorPanel.vue";
+import PhotoPreview from "@components/photo-editor/PhotoPreview.vue";
+import EditorPanel from "@components/photo-editor/EditorPanel.vue";
 import PhotoCropperModal from "@components/modals/PhotoCropperModal.vue";
 import ConfirmModal from "@components/modals/ConfirmModal.vue";
 import clickSfx from "@assets/sfx/click.mp3";
