@@ -99,7 +99,7 @@ import ChevronButton from "@components/svgs/ChevronButton.vue";
     box-sizing: border-box;
     border: 1px solid transparent;
     border-radius: 20px;
-    padding: 0;
+    padding: 10px;
     overflow: hidden;
     cursor: pointer;
     
@@ -107,7 +107,7 @@ import ChevronButton from "@components/svgs/ChevronButton.vue";
 .option-box img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 .option-box:hover {
     border-color: black;
