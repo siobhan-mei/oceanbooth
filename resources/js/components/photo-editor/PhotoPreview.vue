@@ -37,6 +37,17 @@
         >
             <SnapPhoto style="margin-right: 4px"/> Snap
         </button>
+
+        <div
+            v-for="s in placedStickers"
+            :key="s.uid"
+            class="placed-sticker"
+            :style="{ left: s.x + '%', top: s.y + '%' }"
+            @pointerdown="startDrag(s, $event)"
+        >
+            <img :src="s.src" draggable="false" alt="sticker" />
+
+        </div>
     </div>
 </template>
 <script>
@@ -90,9 +101,13 @@ export default {
         isRetaking: {
             type: Boolean,
             default: false,
-        }
+        },
+        placedStickers: {            
+            type: Array,
+            default: () => [],
+        },
     },
-    emits: ["snap", "start-capture", "video-ref"],
+    emits: ["snap", "start-capture", "video-ref", "move-sticker"],
     methods: {
         isLiveSlot(index) {
             return this.mode === "camera"
@@ -102,6 +117,21 @@ export default {
         },
         setVideoRef(el) {
             this.$emit("video-ref", el);
+        },
+        startDrag(sticker, event) {
+            event.preventDefault();
+            const container = this.$el.getBoundingClientRect();
+            const onMove = (e) => {
+                const x = ((e.clientX - container.left) / container.width) * 100;
+                const y = ((e.clientY - container.top) / container.height) * 100;
+                this.$emit("move-sticker", sticker.uid, { x, y });
+            };
+            const onUp = () => {
+                window.removeEventListener("pointermove", onMove);
+                window.removeEventListener("pointerup", onUp);
+            };
+            window.addEventListener("pointermove", onMove);
+            window.addEventListener("pointerup", onUp);
         },
     },
     computed: {
@@ -243,4 +273,12 @@ export default {
     height: 100%;
     object-fit: cover;
 }
+.placed-sticker {
+    position: absolute;
+    width: 80px;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    z-index: 3;
+}
+.placed-sticker img { width: 100%; pointer-events: none; }
 </style>
