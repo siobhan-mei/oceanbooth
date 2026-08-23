@@ -19,7 +19,13 @@
                 :class="{ 'option-grid-boxes--scroll': scrollable }"
                 @scroll="updateScrollState"
             >
-                <button v-for="item in items" :key="item.id" class="option-box">
+                <button 
+                    v-for="item in items"
+                    :key="item.id"
+                    class="option-box"
+                    :class="{ 'option-box--selected': item.id === selectedId }"
+                    @click="$emit('select', item)"
+                >
                     <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.name" />
                 </button>
             </div>

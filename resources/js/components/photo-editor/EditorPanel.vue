@@ -19,6 +19,7 @@
         title="Stickers"
         :items="EDITOR_STICKERS"
         scrollable
+        @select="$emit('add-sticker', $event)"
         />
 
         <p class="datestamp-text">Add datestamp to images</p>
@@ -36,6 +37,7 @@ export default {
         OptionGrid,
         PreviewButton,
     },
+    emits: ["add-sticker"],
     data() {
         return{
             EDITOR_FRAMES, EDITOR_STICKERS
@@ -51,10 +53,10 @@ export default {
     align-self: center;
     width: 350px;
     height: 570px;
-    padding: 40px;
+    padding: 30px;
     border: 1px solid black;
     box-shadow: 0 6px 0px rgba(0, 0, 0, 0.319);
-    border-radius: 20px;
+    border-radius: 30px;
     background: var(--color-main-container, #e6f6f8);
     flex-shrink: 0;
     margin-left: 25px;

@@ -11,7 +11,7 @@ const stickerModules = import.meta.glob(
 );
 
 const stickerThumbnails = Object.keys(stickerModules)
-    .sort() // alphabetical — see naming note below
+    .sort()
     .map((path) => stickerModules[path]);
 
 export const EDITOR_STICKERS = stickerThumbnails.map((thumbnail, i) => ({

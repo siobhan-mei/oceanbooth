@@ -14,8 +14,12 @@
                 @snap="onSlotSelected"
                 @start-capture="onSnapClick"
                 @video-ref="onVideoRef"
+                :placed-stickers="placedStickers"
+                @move-sticker="onMoveSticker"
             />
-            <EditorPanel />
+            <EditorPanel
+                @add-sticker="onAddSticker"
+             />
         </div>
         <input
             ref="fileInput"
@@ -93,6 +97,7 @@ export default {
             showCameraNotFound: false,
             isCapturing: false,
             isRetaking: false,
+            placedStickers: [],
         };
     },
     computed: {
@@ -219,6 +224,18 @@ export default {
             this.showCropper = false;
             this.cropperSrc = null;
             this.pendingSlotIndex = null;
+        },
+        onAddSticker(sticker) {
+            this.placedStickers.push({
+                uid: `${sticker.id}-${Date.now()}`,
+                src: sticker.thumbnail,
+                x: 50,
+                y: 50,
+            });
+        },
+        onMoveSticker(uid, { x, y}) {
+            const s = this.placedStickers.find((s) => s.uid === uid);
+            if (s) { s.x = x; s.y = y; }
         },
     },  
     beforeUnmount() {
