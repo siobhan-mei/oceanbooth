@@ -63,9 +63,9 @@
 <script>
 import TopHeader from "@components/TopHeader.vue";
 import TemplateCard from "@components/TemplateCard.vue";
-import templateSelectionDecor1 from "@assets/images/template-selection-decor-1.svg";
-import templateSelectionDecor2 from "@assets/images/template-selection-decor-2.svg";
-import templateSelectionDecor3 from "@assets/images/template-selection-decor-3.svg";
+import templateSelectionDecor1 from "@assets/images/template-selection-decor-01.svg";
+import templateSelectionDecor2 from "@assets/images/template-selection-decor-02.svg";
+import templateSelectionDecor3 from "@assets/images/template-selection-decor-03.svg";
 import clickSfx from "@assets/sfx/click.mp3";
 import { useSound } from "@composables/useSound";
 

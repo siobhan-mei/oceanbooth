@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { EDITOR_FRAMES, EDITOR_STICKERS } from "@/config/editorFrames.js";
+import { EDITOR_FRAMES, EDITOR_STICKERS } from "@/config/editorPanelAssets.js";
 import OptionGrid from "@components/photo-editor/OptionGrid.vue";
 import PreviewButton from "@components/svgs/PreviewButton.vue";
 
