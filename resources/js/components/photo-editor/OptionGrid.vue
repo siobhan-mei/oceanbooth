@@ -138,41 +138,28 @@ import ChevronButton from "@components/svgs/ChevronButton.vue";
 }
 .scroll-btn {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.6rem;
-    height: 2rem;
-    flex-shrink: 0;
-}
-.scroll-btn--left {
-    left: -15px;
-}
-.scroll-btn--right {
-    right: -15px;
-}
-.scroll-btn:disabled {
-    background: #d8d8d8;
-    cursor: not-allowed;
-    box-shadow: none;
-    pointer-events: none;
-}
-.btn.blue-button.scroll-btn {
-    position: absolute;
     top: 40%;
     transform: translateY(-50%);
     z-index: 2;
     width: 2.2rem;
     height: 2.2rem;
     padding: 0;
-    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+}
+.scroll-btn--left { left: -15px; }
+.scroll-btn--right { right: -15px; }
+.scroll-btn:active {
+    box-shadow: none;
+    transform: translateY(calc(-50% + 4px));
+}
+.scroll-btn:disabled {
+    background: #d8d8d8;
+    cursor: not-allowed;
+    box-shadow: none;
+    pointer-events: none;
 }
 .icon-flip {
     transform: rotate(180deg);
