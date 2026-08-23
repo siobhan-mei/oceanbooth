@@ -113,7 +113,7 @@ export default {
     padding: 40px;
     border: 1px solid black;
     box-shadow: 0 6px 0px rgba(0, 0, 0, 0.319);
-    border-radius: 20px;
+    border-radius: 30px;
     background: var(--color-main-container, #e6f6f8);
 }
 .template-grid {
@@ -125,7 +125,7 @@ export default {
 .stacked-box {
     background: #ffffff;
     border: 1px solid #000000;
-    border-radius: 10px;
+    border-radius: 15px;
     flex: 1;
 }
 .template-column-item {

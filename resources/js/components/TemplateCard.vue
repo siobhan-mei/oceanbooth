@@ -31,7 +31,7 @@ export default {
     position: relative;
     background: var(--color-secondary-container, #c8e6ea);
     height: 100%;
-    border-radius: 15px;
+    border-radius: 20px;
     overflow: hidden;
 }
 .template-secondary-card {
