@@ -3,6 +3,7 @@
         <TopHeader variant="page" @back-click="playClickSound" />
         <div class="d-flex flex-row">
             <PhotoPreview
+                ref="photoPreview"
                 :mode="mode"
                 :template-id="templateId"
                 :photos="photos"
@@ -19,6 +20,9 @@
             />
             <EditorPanel
                 @add-sticker="onAddSticker"
+                @sticker-drag-start="onStickerDragStart"
+                @sticker-drag-move="onStickerDragMove"
+                @sticker-drag-end="onStickerDragEnd"
              />
         </div>
         <input
@@ -57,6 +61,15 @@
             @cancel="onCameraNotFoundClose"
             @confirm="onCameraNotFoundClose"
         />
+
+        <Teleport to="body">
+            <img
+                v-if="draggingSticker"
+                :src="draggingSticker.item.thumbnail"
+                class="drag-ghost"
+                :style="{ left: draggingSticker.x + 'px', top: draggingSticker.y + 'px' }"
+            />
+        </Teleport>
     </div>
 </template>
 <script>
@@ -98,6 +111,7 @@ export default {
             isCapturing: false,
             isRetaking: false,
             placedStickers: [],
+            draggingSticker: null,
         };
     },
     computed: {
@@ -237,6 +251,27 @@ export default {
             const s = this.placedStickers.find((s) => s.uid === uid);
             if (s) { s.x = x; s.y = y; }
         },
+        onStickerDragStart({ item, x, y }) {
+            this.draggingSticker = { item, x, y };
+        },
+        onStickerDragMove({ x, y }) {
+            if (this.draggingSticker) Object.assign(this.draggingSticker, { x, y});
+        },
+        onStickerDragEnd({ x, y }) {
+            if (!this.draggingSticker) return;
+            const rect = this.$refs.photoPreview.$el.getBoundingClientRect();
+            const inside = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+
+            if (inside) {
+                this.placedStickers.push({
+                    uid: `${this.draggingSticker.item.id}-${Date.now()}`,
+                    src: this.draggingSticker.item.thumbnail,
+                    x: ((x - rect.left) / rect.width) * 100,
+                    y: ((y - rect.top) / rect.height) * 100,
+                });
+            }
+            this.draggingSticker = null;
+        },
     },  
     beforeUnmount() {
             this.camera.stop();
@@ -248,5 +283,13 @@ export default {
 .main-bg {
     display: flex;
     align-items: center;
+}
+.drag-ghost {
+    position: fixed;
+    width: 80px;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    opacity: 0.85;
 }
 </style>

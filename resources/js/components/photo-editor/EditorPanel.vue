@@ -5,21 +5,24 @@
         </button>
 
         <OptionGrid 
-        class="option-grid"
-        title="Frames"
-        :items="EDITOR_FRAMES"
+            class="option-grid"
+            title="Frames"
+            :items="EDITOR_FRAMES"
         />
 
         <OptionGrid 
-        title="Filters"
-        :items="EDITOR_FRAMES"
+            title="Filters"
+            :items="EDITOR_FRAMES"
         />
 
         <OptionGrid 
-        title="Stickers"
-        :items="EDITOR_STICKERS"
-        scrollable
-        @select="$emit('add-sticker', $event)"
+            title="Stickers"
+            :items="EDITOR_STICKERS"
+            scrollable
+            @select="$emit('add-sticker', $event)"
+            @drag-start="$emit('sticker-drag-start', $event)"
+            @drag-move="$emit('sticker-drag-move', $event)"
+            @drag-end="$emit('sticker-drag-end', $event)"
         />
 
         <p class="datestamp-text">Add datestamp to images</p>
@@ -37,7 +40,7 @@ export default {
         OptionGrid,
         PreviewButton,
     },
-    emits: ["add-sticker"],
+    emits: ["add-sticker", "sticker-drag-start", "sticker-drag-move", "sticker-drag-end"],
     data() {
         return{
             EDITOR_FRAMES, EDITOR_STICKERS

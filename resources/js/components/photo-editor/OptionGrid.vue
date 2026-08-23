@@ -24,9 +24,9 @@
                     :key="item.id"
                     class="option-box"
                     :class="{ 'option-box--selected': item.id === selectedId }"
-                    @click="$emit('select', item)"
+                    @pointerdown="onPointerDown(item, $event)"
                 >
-                    <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.name" />
+                    <img v-if="item.thumbnail" :src="item.thumbnail" :alt="item.name" draggable="false" />
                 </button>
             </div>
 
@@ -76,8 +76,35 @@ import ChevronButton from "@components/svgs/ChevronButton.vue";
                 const el = this.$refs.scrollContainer;
                 this.canScrollLeft = el.scrollLeft > 0;
                 this.canScrollRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
-            }
-        }
+            },
+            onPointerDown(item, event) {
+                event.preventDefault();
+                const startX = event.clientX;
+                const startY = event.clientY;
+                let dragging = false;
+
+                const onMove = (e) => {
+                    const moved = Math.hypot(e.clientX - startX, e.clientY - startY);
+                    if (!dragging && moved > 6) {
+                        dragging = true;
+                        this.$emit("drag-start", { item, x: e.clientX, y: e.clientY });
+                    }
+                    if (dragging) this.$emit("drag-move", { x: e.clientX, y: e.clientY });
+                };
+
+                const onUp = (e) => {
+                    window.removeEventListener("pointermove", onMove);
+                    window.removeEventListener("pointerup", onUp);
+                    if (dragging) {
+                        this.$emit("drag-end", { x: e.clientX, y: e.clientY });        
+                    } else {
+                        this.$emit("select", item);
+                    }
+                };
+                window.addEventListener("pointermove", onMove);
+                window.addEventListener("pointerup", onUp);
+            },
+        },
     }
 </script>
 
