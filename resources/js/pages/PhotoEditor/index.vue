@@ -12,11 +12,14 @@
                 :countdown="camera.countdown.value"
                 :is-capturing="isCapturing"
                 :is-retaking="isRetaking"
+                :placed-stickers="placedStickers"
+                :select-sticker-id="selectedStickerId"
                 @snap="onSlotSelected"
                 @start-capture="onSnapClick"
                 @video-ref="onVideoRef"
-                :placed-stickers="placedStickers"
                 @move-sticker="onMoveSticker"
+                @select-sticker="onSelectSticker"
+                @resize-sticker="onResizeSticker"
             />
             <EditorPanel
                 @add-sticker="onAddSticker"
@@ -112,6 +115,7 @@ export default {
             isRetaking: false,
             placedStickers: [],
             draggingSticker: null,
+            selectedStickerId: null,
         };
     },
     computed: {
@@ -243,8 +247,8 @@ export default {
             this.placedStickers.push({
                 uid: `${sticker.id}-${Date.now()}`,
                 src: sticker.thumbnail,
-                x: 50,
-                y: 50,
+                x: 50, y: 50,
+                size: 80,
             });
         },
         onMoveSticker(uid, { x, y}) {
@@ -271,6 +275,13 @@ export default {
                 });
             }
             this.draggingSticker = null;
+        },
+        onSelectSticker(uid) {
+            this.selectedStickerId = uid;
+        },
+        onResizeSticker(uid, size) {
+            const s = this.placedStickers.find((s) => s.uid === uid);
+            if (s) s.size = size;
         },
     },  
     beforeUnmount() {

@@ -1,5 +1,6 @@
 <template>
-    <div class="photo-preview">
+    <div class="photo-preview"
+    @pointerdown.self="$emit('select-sticker', null)">
         <h3
             :class="headerPositionClass"
         >
@@ -42,10 +43,17 @@
             v-for="s in placedStickers"
             :key="s.uid"
             class="placed-sticker"
-            :style="{ left: s.x + '%', top: s.y + '%' }"
+            :style="{ left: s.x + '%', top: s.y + '%', width: (s.size || 80) + 'px' }"
             @pointerdown="startDrag(s, $event)"
         >
             <img :src="s.src" draggable="false" alt="sticker" />
+            <div
+                v-for="corner in ['tl', 'tr', 'bl', 'br']"
+                :key="corner"
+                class="resize-handle"
+                :class="`resize-handle--${corner}`"
+                @pointerdown.stop="startResize(s, $event)"
+            />
 
         </div>
     </div>
@@ -106,8 +114,12 @@ export default {
             type: Array,
             default: () => [],
         },
+        selectedStickerId: { 
+            type: String, 
+            default: null,
+        },
     },
-    emits: ["snap", "start-capture", "video-ref", "move-sticker"],
+    emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker"],
     methods: {
         isLiveSlot(index) {
             return this.mode === "camera"
@@ -120,6 +132,7 @@ export default {
         },
         startDrag(sticker, event) {
             event.preventDefault();
+            this.$emit("select-sticker", sticker.uid);
             const container = this.$el.getBoundingClientRect();
             const onMove = (e) => {
                 const x = ((e.clientX - container.left) / container.width) * 100;
@@ -133,6 +146,26 @@ export default {
             window.addEventListener("pointermove", onMove);
             window.addEventListener("pointerup", onUp);
         },
+        startResize(sticker, event) {
+            event.preventDefault();
+            const container = this.$el.getBoundingClientRect();
+            const centerX = container.left + (sticker.x / 100) * container.width;
+            const centerY = container.top + (sticker.y / 100) * container.height;
+            const initialDist = Math.hypot(event.clientX - centerX, event.clientY - centerY);
+            const initialSize = sticker.size || 80;
+
+            const onMove = (e) => {
+                const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+                const newSize = Math.min(200, Math.max(30, initialSize * (dist / initialDist)));
+                this.$emit("resize-sticker", sticker.uid, newSize);
+            };
+            const onUp = () => {
+                window.removeEventListener("pointermove", onMove);
+                window.removeEventListener("pointerup", onUp);
+            };
+            window.addEventListener("pointermove", onMove);
+            window.addEventListener("pointerup", onUp);
+        }
     },
     computed: {
         nextEmptyIndex() {
@@ -275,10 +308,45 @@ export default {
 }
 .placed-sticker {
     position: absolute;
-    width: 80px;
     transform: translate(-50%, -50%);
     cursor: grab;
     z-index: 3;
 }
-.placed-sticker img { width: 100%; pointer-events: none; }
+.placed-sticker img { 
+    width: 100%;
+    pointer-events: none; 
+}
+.placed-sticker--selected {
+    outline: 1.5px solid #000000;
+    outline-offset: 6px;
+}
+.resize-handle {
+    position: absolute;
+    z-index: 4;
+    background: #000000;
+    border: 1.5px solid #000000;
+}
+.resize-handle--corner {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #000000;
+    border-color: #000000;
+}
+.resize-handle--tl { top: -10px; left: -10px; cursor: nwse-resize; }
+.resize-handle--tr { top: -10px; right: -10px; cursor: nesw-resize; }
+.resize-handle--bl { bottom: -10px; left: -10px; cursor: nesw-resize; }
+.resize-handle--br { bottom: -10px; right: -10px; cursor: nwse-resize; }
+
+.resize-handle--edge { border-radius: 4px; }
+.resize-handle--top, .resize-handle--bottom {
+    width: 22px; height: 8px; left: 50%; transform: translateX(-50%); cursor: ns-resize;
+}
+.resize-handle--left, .resize-handle--right {
+    width: 8px; height: 22px; top: 50%; transform: translateY(-50%); cursor: ew-resize;
+}
+.resize-handle--top { top: -14px; }
+.resize-handle--bottom { bottom: -14px; }
+.resize-handle--left { left: -14px; }
+.resize-handle--right { right: -14px; }
 </style>

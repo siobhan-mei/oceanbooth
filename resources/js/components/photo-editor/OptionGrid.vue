@@ -78,7 +78,8 @@ import ChevronButton from "@components/svgs/ChevronButton.vue";
                 this.canScrollRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
             },
             onPointerDown(item, event) {
-                event.preventDefault();
+                event.preventDefault();                                         
+                
                 const startX = event.clientX;
                 const startY = event.clientY;
                 let dragging = false;
