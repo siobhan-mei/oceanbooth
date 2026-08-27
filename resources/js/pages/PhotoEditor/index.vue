@@ -13,7 +13,7 @@
                 :is-capturing="isCapturing"
                 :is-retaking="isRetaking"
                 :placed-stickers="placedStickers"
-                :select-sticker-id="selectedStickerId"
+                :selected-sticker-id="selectedStickerId"
                 @snap="onSlotSelected"
                 @start-capture="onSnapClick"
                 @video-ref="onVideoRef"

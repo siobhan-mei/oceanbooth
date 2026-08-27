@@ -43,18 +43,20 @@
             v-for="s in placedStickers"
             :key="s.uid"
             class="placed-sticker"
+            :class="{ 'placed-sticker--selected': s.uid === selectedStickerId }"
             :style="{ left: s.x + '%', top: s.y + '%', width: (s.size || 80) + 'px' }"
             @pointerdown="startDrag(s, $event)"
         >
             <img :src="s.src" draggable="false" alt="sticker" />
-            <div
-                v-for="corner in ['tl', 'tr', 'bl', 'br']"
-                :key="corner"
-                class="resize-handle"
-                :class="`resize-handle--${corner}`"
-                @pointerdown.stop="startResize(s, $event)"
-            />
-
+            <template v-if="s.uid === selectedStickerId">
+                <div
+                    v-for="corner in ['tl', 'tr', 'bl', 'br']"
+                    :key="corner"
+                    class="resize-handle"
+                    :class="['resize-handle--corner', `resize-handle--${corner}`]"
+                    @pointerdown.stop="startResize(s, $event)"
+                />
+            </template>
         </div>
     </div>
 </template>
@@ -318,7 +320,7 @@ export default {
 }
 .placed-sticker--selected {
     outline: 1.5px solid #000000;
-    outline-offset: 6px;
+    outline-offset: 4px;
 }
 .resize-handle {
     position: absolute;
@@ -338,15 +340,19 @@ export default {
 .resize-handle--bl { bottom: -10px; left: -10px; cursor: nesw-resize; }
 .resize-handle--br { bottom: -10px; right: -10px; cursor: nwse-resize; }
 
-.resize-handle--edge { border-radius: 4px; }
+.resize-handle--edge { 
+    width: 16px; 
+    height: 6px;
+}
 .resize-handle--top, .resize-handle--bottom {
-    width: 22px; height: 8px; left: 50%; transform: translateX(-50%); cursor: ns-resize;
+    left: 50%; transform: translateX(-50%);
+    cursor: ns-resize;
 }
 .resize-handle--left, .resize-handle--right {
-    width: 8px; height: 22px; top: 50%; transform: translateY(-50%); cursor: ew-resize;
+    width: 6px; height: 16px; top: 50%; transform: translateY(-50%); cursor: ew-resize;
 }
-.resize-handle--top { top: -14px; }
-.resize-handle--bottom { bottom: -14px; }
-.resize-handle--left { left: -14px; }
-.resize-handle--right { right: -14px; }
+.resize-handle--top { top: -3px; }
+.resize-handle--bottom { bottom: -3px; }
+.resize-handle--left { left: -3px; }
+.resize-handle--right { right: -3px; }
 </style>
