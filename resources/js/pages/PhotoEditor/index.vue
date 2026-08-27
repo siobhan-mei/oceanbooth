@@ -245,7 +245,7 @@ export default {
         },
         onAddSticker(sticker) {
             this.placedStickers.push({
-                uid: `${sticker.id}-${Date.now()}`,
+                uid: crypto.randomUUID(),
                 src: sticker.thumbnail,
                 x: 50, y: 50,
                 size: 80,
@@ -268,7 +268,7 @@ export default {
 
             if (inside) {
                 this.placedStickers.push({
-                    uid: `${this.draggingSticker.item.id}-${Date.now()}`,
+                    uid: crypto.randomUUID(),
                     src: this.draggingSticker.item.thumbnail,
                     x: ((x - rect.left) / rect.width) * 100,
                     y: ((y - rect.top) / rect.height) * 100,
