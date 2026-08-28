@@ -212,7 +212,7 @@ export default {
 .camera-button {
     position: absolute;
     height: 45px;
-    z-index: 5;
+    z-index: var(--z-controls);
 }
 .camera-button:disabled {
     background: #d8d8d8;
@@ -312,7 +312,7 @@ export default {
     position: absolute;
     transform: translate(-50%, -50%);
     cursor: grab;
-    z-index: 3;
+    z-index: var(--z-sticker);
 }
 .placed-sticker img { 
     width: 100%;
@@ -324,7 +324,7 @@ export default {
 }
 .resize-handle {
     position: absolute;
-    z-index: 4;
+    z-index: var(--z-sticker-handle);
     background: white;
     border: 1.5px solid black;
 }

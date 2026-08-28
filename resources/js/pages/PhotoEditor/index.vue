@@ -300,7 +300,7 @@ export default {
     width: 80px;
     pointer-events: none;
     transform: translate(-50%, -50%);
-    z-index: 100;
+    z-index: var(--z-drag-ghost); 
     opacity: 0.85;
 }
 </style>

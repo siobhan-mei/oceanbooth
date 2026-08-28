@@ -48,6 +48,14 @@
     --color-secondary-container: var(--color-ocean-200);
     --color-primary-btn: var(--color-pink-100);
     --color-secondary-btn: var(--color-white);
+
+    /* z-index */
+    --z-content: 1;
+    --z-sticker: 10;
+    --z-sticker-handle: 11;
+    --z-controls: 20; 
+    --z-modal: 100;
+    --z-drag-ghost: 200;
 }
 
 body {
