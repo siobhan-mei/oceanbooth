@@ -319,21 +319,19 @@ export default {
     pointer-events: none; 
 }
 .placed-sticker--selected {
-    outline: 1.5px solid #000000;
+    outline: 1.5px solid black;
     outline-offset: 4px;
 }
 .resize-handle {
     position: absolute;
     z-index: 4;
-    background: #000000;
-    border: 1.5px solid #000000;
+    background: white;
+    border: 1.5px solid black;
 }
 .resize-handle--corner {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #000000;
-    border-color: #000000;
+    width: 11px;
+    height: 11px;
+    border-color: black;
 }
 .resize-handle--tl { top: -10px; left: -10px; cursor: nwse-resize; }
 .resize-handle--tr { top: -10px; right: -10px; cursor: nesw-resize; }
