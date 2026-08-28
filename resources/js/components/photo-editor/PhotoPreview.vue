@@ -338,10 +338,6 @@ export default {
 .resize-handle--bl { bottom: -10px; left: -10px; cursor: nesw-resize; }
 .resize-handle--br { bottom: -10px; right: -10px; cursor: nwse-resize; }
 
-.resize-handle--edge { 
-    width: 16px; 
-    height: 6px;
-}
 .resize-handle--top, .resize-handle--bottom {
     left: 50%; transform: translateX(-50%);
     cursor: ns-resize;
