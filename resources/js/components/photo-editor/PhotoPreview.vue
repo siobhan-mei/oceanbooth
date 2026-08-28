@@ -1,6 +1,6 @@
 <template>
     <div class="photo-preview"
-    @pointerdown.self="$emit('select-sticker', null)">
+    @pointerdown="$emit('select-sticker', null)">
         <h3
             :class="headerPositionClass"
         >
@@ -45,7 +45,7 @@
             class="placed-sticker"
             :class="{ 'placed-sticker--selected': s.uid === selectedStickerId }"
             :style="{ left: s.x + '%', top: s.y + '%', width: (s.size || 80) + 'px' }"
-            @pointerdown="startDrag(s, $event)"
+            @pointerdown.stop="startDrag(s, $event)"
         >
             <img :src="s.src" draggable="false" alt="sticker" />
             <template v-if="s.uid === selectedStickerId">
