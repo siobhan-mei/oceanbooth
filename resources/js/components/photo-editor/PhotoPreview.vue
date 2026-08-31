@@ -66,6 +66,7 @@ import defaultSingleFrame from "@assets/images/photo-editor/frames/default-singl
 import defaultDoubleFrame from "@assets/images/photo-editor/frames/default-double-frame.svg";
 import defaultTripleFrame from "@assets/images/photo-editor/frames/default-triple-frame.svg";
 import { useTemplateSlots } from "@composables/useTemplateSlots";
+import { usePointerDrag } from "@composables/usePointerDrag";
 
 const TEMPLATE_CONFIG = {
     1: { frame: defaultSingleFrame, buttonClass: "camera-button--single", headerClass: "header--single" },
@@ -122,6 +123,10 @@ export default {
         },
     },
     emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker"],
+    setup() {
+        const { start } = usePointerDrag();
+        return { startPointerDrag: start };
+    },
     methods: {
         isLiveSlot(index) {
             return this.mode === "camera"
@@ -133,40 +138,30 @@ export default {
             this.$emit("video-ref", el);
         },
         startDrag(sticker, event) {
-            event.preventDefault();
             this.$emit("select-sticker", sticker.uid);
             const container = this.$el.getBoundingClientRect();
-            const onMove = (e) => {
-                const x = ((e.clientX - container.left) / container.width) * 100;
-                const y = ((e.clientY - container.top) / container.height) * 100;
-                this.$emit("move-sticker", sticker.uid, { x, y });
-            };
-            const onUp = () => {
-                window.removeEventListener("pointermove", onMove);
-                window.removeEventListener("pointerup", onUp);
-            };
-            window.addEventListener("pointermove", onMove);
-            window.addEventListener("pointerup", onUp);
+            this.startPointerDrag(event, {
+                onMove: (e) => {
+                    const x = ((e.clientX - container.left) / container.width) * 100; 
+                    const y = ((e.clientY - container.top) / container.height) * 100;
+                    this.$emit("move-sticker", sticker.uid, { x, y });
+                }
+            })
         },
         startResize(sticker, event) {
-            event.preventDefault();
             const container = this.$el.getBoundingClientRect();
             const centerX = container.left + (sticker.x / 100) * container.width;
             const centerY = container.top + (sticker.y / 100) * container.height;
             const initialDist = Math.hypot(event.clientX - centerX, event.clientY - centerY);
             const initialSize = sticker.size || 80;
 
-            const onMove = (e) => {
-                const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
-                const newSize = Math.min(200, Math.max(30, initialSize * (dist / initialDist)));
-                this.$emit("resize-sticker", sticker.uid, newSize);
-            };
-            const onUp = () => {
-                window.removeEventListener("pointermove", onMove);
-                window.removeEventListener("pointerup", onUp);
-            };
-            window.addEventListener("pointermove", onMove);
-            window.addEventListener("pointerup", onUp);
+            this.startPointerDrag(event, {
+                onMove: (e) => {
+                    const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+                    const newSize = Math.min(200, Math.max(30, initialSize * (dist / initialDist)));
+                    this.$emit("resize-sticker", sticker.uid, newSize);
+                }
+            })
         }
     },
     computed: {

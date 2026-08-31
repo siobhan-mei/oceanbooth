@@ -45,11 +45,16 @@
 
 <script>
 import ChevronButton from "@components/svgs/ChevronButton.vue";
+import { usePointerDrag } from "@composables/usePointerDrag";
 
     export default {
         name: "OptionGrid",
         components: {
             ChevronButton,
+        },
+        setup() {
+            const { start } = usePointerDrag();
+            return { startPointerDrag: start };
         },
         props: {
             title: { type: String, required: true },
@@ -78,32 +83,19 @@ import ChevronButton from "@components/svgs/ChevronButton.vue";
                 this.canScrollRight = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
             },
             onPointerDown(item, event) {
-                event.preventDefault();                                         
-                
-                const startX = event.clientX;
-                const startY = event.clientY;
-                let dragging = false;
-
-                const onMove = (e) => {
-                    const moved = Math.hypot(e.clientX - startX, e.clientY - startY);
-                    if (!dragging && moved > 6) {
-                        dragging = true;
-                        this.$emit("drag-start", { item, x: e.clientX, y: e.clientY });
-                    }
-                    if (dragging) this.$emit("drag-move", { x: e.clientX, y: e.clientY });
-                };
-
-                const onUp = (e) => {
-                    window.removeEventListener("pointermove", onMove);
-                    window.removeEventListener("pointerup", onUp);
-                    if (dragging) {
-                        this.$emit("drag-end", { x: e.clientX, y: e.clientY });        
-                    } else {
-                        this.$emit("select", item);
-                    }
-                };
-                window.addEventListener("pointermove", onMove);
-                window.addEventListener("pointerup", onUp);
+               let started = false;
+               this.startPointerDrag(event, {
+                    threshold: 6,
+                    onMove: (e) => {
+                        if (!started) {
+                            started = true;
+                            this.$emit("drag-start", { item, x: e.clientX, y: e.clientY });
+                        }
+                        this.$emit("drag-move", { x: e.clientX, y: e.clientY });
+                    },
+                    onEnd: (e) => this.$emit("drag-end", { x: e.clientX, y: e.clientY }),
+                    onClick: () => this.$emit("select", item),
+               });
             },
         },
     }
