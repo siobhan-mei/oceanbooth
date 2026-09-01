@@ -44,7 +44,7 @@
             :key="s.uid"
             class="placed-sticker"
             :class="{ 'placed-sticker--selected': s.uid === selectedStickerId }"
-            :style="{ left: s.x + '%', top: s.y + '%', width: (s.size || 80) + 'px' }"
+            :style="stickerStyle(s)"
             @pointerdown.stop="startDrag(s, $event)"
         >
             <img :src="s.src" draggable="false" alt="sticker" />
@@ -52,16 +52,20 @@
                 <div
                     v-for="corner in ['tl', 'tr', 'bl', 'br']"
                     :key="corner"
-                    class="resize-handle"
-                    :class="['resize-handle--corner', `resize-handle--${corner}`]"
+                    class="resize-handle resize-handle--corner"
+                    :class="[`resize-handle--${corner}`]"
                     @pointerdown.stop="startResize(s, $event)"
                 />
+                <div class="rotate-handle" @pointerdown.stop="startRotate(s, $event)">
+                    <RotateButton />
+                </div>
             </template>
         </div>
     </div>
 </template>
 <script>
 import SnapPhoto from "@components/svgs/SnapPhoto.vue";
+import RotateButton from "@components/svgs/RotateButton.vue";
 import defaultSingleFrame from "@assets/images/photo-editor/frames/default-single-frame.svg";
 import defaultDoubleFrame from "@assets/images/photo-editor/frames/default-double-frame.svg";
 import defaultTripleFrame from "@assets/images/photo-editor/frames/default-triple-frame.svg";
@@ -78,6 +82,7 @@ export default {
     name: "PhotoPreview",
     components: {
         SnapPhoto,
+        RotateButton,
     },
     props: {
         templateId: {
@@ -122,7 +127,7 @@ export default {
             default: null,
         },
     },
-    emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker"],
+    emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker", "rotate-sticker"],
     setup() {
         const { start } = usePointerDrag();
         return { startPointerDrag: start };
@@ -148,7 +153,7 @@ export default {
                 }
             })
         },
-        startResize(sticker, event) {
+          resize(sticker, event) {
             const container = this.$el.getBoundingClientRect();
             const centerX = container.left + (sticker.x / 100) * container.width;
             const centerY = container.top + (sticker.y / 100) * container.height;
@@ -161,8 +166,34 @@ export default {
                     const newSize = Math.min(200, Math.max(30, initialSize * (dist / initialDist)));
                     this.$emit("resize-sticker", sticker.uid, newSize);
                 }
+            }) 
+        },
+        stickerStyle(s) {
+            return {
+                left: s.x + '%',
+                top: s.y + '%',
+                width: (s.size || 80) + 'px',
+                transform: `translate(-50%, -50%) rotate(${s.rotation || 0}deg)`,
+            };
+        },
+        startRotate(sticker, event) {
+            const container = this.$el.getBoundingClientRect();
+            const centerX = container.left + (sticker.x / 100) * container.width;
+            const centerY = container.top + (sticker.y / 100) * container.height;
+
+            const toDeg = (rad) => rad * (180/Math.PI);
+            const startAngle = toDeg(Math.atan2(event.clientY - centerY, event.clientX - centerX));
+            const startRotation = sticker.rotation || 0;
+
+            this.startPointerDrag(event, {
+                onMove: (e) => {
+                    const currentAngle = toDeg(Math.atan2(e.clientY - centerY, e.clientX - centerX));
+                    const delta = currentAngle - startAngle;
+                    this.$emit("rotate-sticker", sticker.uid, startRotation + delta);
+                }
             })
         }
+
     },
     computed: {
         nextEmptyIndex() {
@@ -305,7 +336,6 @@ export default {
 }
 .placed-sticker {
     position: absolute;
-    transform: translate(-50%, -50%);
     cursor: grab;
     z-index: var(--z-sticker);
 }
@@ -344,4 +374,20 @@ export default {
 .resize-handle--bottom { bottom: -3px; }
 .resize-handle--left { left: -3px; }
 .resize-handle--right { right: -3px; }
+.rotate-handle {
+    position: absolute;
+    bottom: -34px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: white;
+    border: 1.5px solid black;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    cursor: grab;
+    z-index: var(--z-sticker-handle);
+}
 </style>

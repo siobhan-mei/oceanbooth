@@ -20,6 +20,7 @@
                 @move-sticker="onMoveSticker"
                 @select-sticker="onSelectSticker"
                 @resize-sticker="onResizeSticker"
+                @rotate-sticker="onRotateSticker"
             />
             <EditorPanel
                 @add-sticker="onAddSticker"
@@ -249,6 +250,7 @@ export default {
                 src: sticker.thumbnail,
                 x: 50, y: 50,
                 size: 80,
+                rotation: 0,
             });
         },
         onMoveSticker(uid, { x, y}) {
@@ -272,6 +274,7 @@ export default {
                     src: this.draggingSticker.item.thumbnail,
                     x: ((x - rect.left) / rect.width) * 100,
                     y: ((y - rect.top) / rect.height) * 100,
+                    rotation: 0,
                 });
             }
             this.draggingSticker = null;
@@ -283,6 +286,10 @@ export default {
             const s = this.placedStickers.find((s) => s.uid === uid);
             if (s) s.size = size;
         },
+        onRotateSticker(uid, rotation) {
+            const s = this.placedStickers.find((s) => s.uid === uid);
+            if (s) s.rotation = rotation;
+        }
     },  
     beforeUnmount() {
             this.camera.stop();
