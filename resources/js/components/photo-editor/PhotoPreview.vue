@@ -53,8 +53,8 @@
                     v-for="corner in ['tl', 'tr', 'bl', 'br']"
                     :key="corner"
                     class="resize-handle resize-handle--corner"
-                    :class="[`resize-handle--${corner}`]"
-                    @pointerdown.stop="startResize(s, $event)"
+                    :class="`resize-handle--${corner}`"
+                    @pointerdown.stop="resize(s, $event)"
                 />
                 <div class="rotate-handle" @pointerdown.stop="startRotate(s, $event)">
                     <RotateButton />
