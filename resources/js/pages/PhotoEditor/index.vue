@@ -21,6 +21,7 @@
                 @select-sticker="onSelectSticker"
                 @resize-sticker="onResizeSticker"
                 @rotate-sticker="onRotateSticker"
+                @delete-sticker="onDeleteSticker"
             />
             <EditorPanel
                 @add-sticker="onAddSticker"
@@ -300,6 +301,10 @@ export default {
         deselectSticker() {
             this.selectedStickerId = null;
         },
+        onDeleteSticker(uid) {
+            this.placedStickers = this.placedStickers.filter(s => s.uid !== uid);
+            if (this.selectedStickerId === uid) this.selectedStickerId = null;
+        }
     }
 };
 </script>

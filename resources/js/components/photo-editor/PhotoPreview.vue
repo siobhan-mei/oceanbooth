@@ -37,7 +37,6 @@
         >
             <SnapPhoto style="margin-right: 4px"/> Snap
         </button>
-
         <div
             v-for="s in placedStickers"
             :key="s.uid"
@@ -59,6 +58,11 @@
                 <div class="rotate-handle" @pointerdown.stop="startRotate(s, $event)">
                     <RotateButton />
                 </div>
+                <div class="sticker-toolbar" :style="{ transform: `rotate(${-s.rotation || 0}deg)` }">
+                    <div class="sticker-delete-btn" @pointerdown.stop="$emit('delete-sticker', s.uid)">
+                        <DeleteButton />
+                    </div>
+                </div>
             </template>
         </div>
     </div>
@@ -66,6 +70,7 @@
 <script>
 import SnapPhoto from "@components/svgs/SnapPhoto.vue";
 import RotateButton from "@components/svgs/RotateButton.vue";
+import DeleteButton from "@components/svgs/DeleteButton.vue";
 import defaultSingleFrame from "@assets/images/photo-editor/frames/default-single-frame.svg";
 import defaultDoubleFrame from "@assets/images/photo-editor/frames/default-double-frame.svg";
 import defaultTripleFrame from "@assets/images/photo-editor/frames/default-triple-frame.svg";
@@ -90,6 +95,7 @@ export default {
     components: {
         SnapPhoto,
         RotateButton,
+        DeleteButton,
     },
     props: {
         templateId: {
@@ -134,7 +140,7 @@ export default {
             default: null,
         },
     },
-    emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker", "rotate-sticker"],
+    emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker", "rotate-sticker", "delete-sticker"],
     setup() {
         const { start } = usePointerDrag();
         return { startPointerDrag: start };
@@ -400,5 +406,30 @@ export default {
     display: flex;
     cursor: grab;
     z-index: var(--z-sticker-handle);
+}
+.sticker-toolbar {
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    translate: -50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--color-primary-btn, #ffe5eb);
+    border: 1.5px solid black;
+    z-index: var(--z-sticker-handle);
+}
+.sticker-delete-btn {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
 }
 </style>
