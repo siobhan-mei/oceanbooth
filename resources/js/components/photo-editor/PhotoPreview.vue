@@ -1,6 +1,5 @@
 <template>
-    <div class="photo-preview"
-    @pointerdown="$emit('select-sticker', null)">
+    <div class="photo-preview">
         <h3
             :class="headerPositionClass"
         >
@@ -394,7 +393,7 @@ export default {
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: white;
+    background: var(--color-primary-btn, #ffe5eb);
     border: 1.5px solid black;
     align-items: center;
     justify-content: center;

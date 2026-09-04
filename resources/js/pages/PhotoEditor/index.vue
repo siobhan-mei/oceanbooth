@@ -136,6 +136,13 @@ export default {
             },
         },
     },
+    mounted() {
+        window.addEventListener("pointerdown", this.deselectSticker);
+    },
+    beforeUnmount() {
+            this.camera.stop();
+            window.removeEventListener("pointerdown", this.deselectSticker);
+    },
     methods: {
         async onSlotSelected(index) {
             if (this.mode === "upload"){
@@ -289,11 +296,11 @@ export default {
         onRotateSticker(uid, rotation) {
             const s = this.placedStickers.find((s) => s.uid === uid);
             if (s) s.rotation = rotation;
-        }
-    },  
-    beforeUnmount() {
-            this.camera.stop();
-    },
+        },
+        deselectSticker() {
+            this.selectedStickerId = null;
+        },
+    }
 };
 </script>
 
