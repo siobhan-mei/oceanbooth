@@ -54,6 +54,7 @@
                     :key="corner"
                     class="resize-handle resize-handle--corner"
                     :class="`resize-handle--${corner}`"
+                    :style="{ cursor: resizeCursor(corner, s.rotation || 0) }"
                     @pointerdown.stop="resize(s, $event)"
                 />
                 <div class="rotate-handle" @pointerdown.stop="startRotate(s, $event)">
@@ -77,6 +78,13 @@ const TEMPLATE_CONFIG = {
     2: { frame: defaultDoubleFrame, buttonClass: "camera-button--double", headerClass: "header--double" },
     3: { frame: defaultTripleFrame, buttonClass: "camera-button--triple", headerClass: "header--triple" },
 };
+
+const CURSOR_NAMES = [
+    'n-resize', 'ne-resize', 'e-resize', 'se-resize', 
+    's-resize', 'sw-resize', 'w-resize', 'nw-resize',
+];
+
+const CORNER_BASE_ANGLE = { tl: 315, tr: 45, br: 135, bl: 225 };
 
 export default {    
     name: "PhotoPreview",
@@ -191,8 +199,13 @@ export default {
                     const delta = currentAngle - startAngle;
                     this.$emit("rotate-sticker", sticker.uid, startRotation + delta);
                 }
-            })
-        }
+            })            
+        },
+        resizeCursor(corner, rotation = 0) {
+            const angle = ((CORNER_BASE_ANGLE[corner] + rotation) % 360 + 360) % 360;
+            const index = Math.round(angle / 45) % 8;
+            return CURSOR_NAMES[index];
+        },
 
     },
     computed: {
@@ -358,11 +371,6 @@ export default {
     height: 11px;
     border-color: black;
 }
-.resize-handle--tl { top: -10px; left: -10px; cursor: nwse-resize; }
-.resize-handle--tr { top: -10px; right: -10px; cursor: nesw-resize; }
-.resize-handle--bl { bottom: -10px; left: -10px; cursor: nesw-resize; }
-.resize-handle--br { bottom: -10px; right: -10px; cursor: nwse-resize; }
-
 .resize-handle--top, .resize-handle--bottom {
     left: 50%; transform: translateX(-50%);
     cursor: ns-resize;
@@ -370,6 +378,10 @@ export default {
 .resize-handle--left, .resize-handle--right {
     width: 6px; height: 16px; top: 50%; transform: translateY(-50%); cursor: ew-resize;
 }
+.resize-handle--tl { top: -10px; left: -10px; }
+.resize-handle--tr { top: -10px; right: -10px; }
+.resize-handle--bl { bottom: -10px; left: -10px; }
+.resize-handle--br { bottom: -10px; right: -10px; }
 .resize-handle--top { top: -3px; }
 .resize-handle--bottom { bottom: -3px; }
 .resize-handle--left { left: -3px; }
