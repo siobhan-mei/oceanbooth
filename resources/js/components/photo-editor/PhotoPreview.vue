@@ -59,6 +59,9 @@
                     <RotateIcon />
                 </div>
                 <div class="sticker-toolbar" :style="{ transform: `rotate(${-s.rotation || 0}deg)` }">
+                    <div class="sticker-copy-btn" @pointerdown.stop="$emit('copy-sticker', s.uid)">
+                        <CopyIcon />
+                    </div>
                     <div class="sticker-delete-btn" @pointerdown.stop="$emit('delete-sticker', s.uid)">
                         <DeleteIcon />
                     </div>
@@ -71,6 +74,7 @@
 import SnapPhotoIcon from "@components/svgs/SnapPhotoIcon.vue";
 import RotateIcon from "@components/svgs/RotateIcon.vue";
 import DeleteIcon from "@components/svgs/DeleteIcon.vue";
+import CopyIcon from "@components/svgs/CopyIcon.vue";
 import defaultSingleFrame from "@assets/images/photo-editor/frames/default-single-frame.svg";
 import defaultDoubleFrame from "@assets/images/photo-editor/frames/default-double-frame.svg";
 import defaultTripleFrame from "@assets/images/photo-editor/frames/default-triple-frame.svg";
@@ -96,6 +100,7 @@ export default {
         SnapPhotoIcon,
         RotateIcon,
         DeleteIcon,
+        CopyIcon,
     },
     props: {
         templateId: {
@@ -140,7 +145,7 @@ export default {
             default: null,
         },
     },
-    emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker", "rotate-sticker", "delete-sticker"],
+    emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker", "rotate-sticker", "delete-sticker", "copy-sticker"],
     setup() {
         const { start } = usePointerDrag();
         return { startPointerDrag: start };
@@ -415,14 +420,24 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 26px;
+    width: 55px;
     height: 26px;
-    border-radius: 50%;
+    border-radius: 50px;
     background: var(--color-primary-btn, #ffe5eb);
     border: 1.5px solid black;
     z-index: var(--z-sticker-handle);
 }
-.sticker-delete-btn {
+.sticker-copy-btn {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+}
+.sticker-delete-btn {        
     width: 100%;
     height: 100%;
     padding: 0;

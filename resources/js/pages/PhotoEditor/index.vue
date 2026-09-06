@@ -21,6 +21,7 @@
                 @select-sticker="onSelectSticker"
                 @resize-sticker="onResizeSticker"
                 @rotate-sticker="onRotateSticker"
+                @copy-sticker="onCopySticker"
                 @delete-sticker="onDeleteSticker"
             />
             <EditorPanel
@@ -300,6 +301,19 @@ export default {
         },
         deselectSticker() {
             this.selectedStickerId = null;
+        },
+        onCopySticker(uid) {
+            const s = this.placedStickers.find((s) => s.uid === uid);
+            if (s) {
+                this.placedStickers.push({
+                    uid: crypto.randomUUID(),
+                    src: s.src,
+                    x: s.x + 5,
+                    y: s.y + 5,
+                    size: s.size,
+                    rotation: s.rotation,
+                });
+            }
         },
         onDeleteSticker(uid) {
             this.placedStickers = this.placedStickers.filter(s => s.uid !== uid);
