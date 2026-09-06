@@ -409,7 +409,7 @@ export default {
 }
 .sticker-toolbar {
     position: absolute;
-    top: -50%;
+    top: -38px;
     left: 50%;
     translate: -50%;
     display: flex;
