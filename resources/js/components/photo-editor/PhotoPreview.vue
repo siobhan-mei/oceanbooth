@@ -62,6 +62,7 @@
                     <div class="sticker-copy-btn" @pointerdown.stop="$emit('copy-sticker', s.uid)">
                         <CopyIcon />
                     </div>
+                    <div class="toolbar-divider"></div>
                     <div class="sticker-delete-btn" @pointerdown.stop="$emit('delete-sticker', s.uid)">
                         <DeleteIcon />
                     </div>
@@ -414,18 +415,24 @@ export default {
 }
 .sticker-toolbar {
     position: absolute;
-    top: -38px;
+    top: -43px;
     left: 50%;
     translate: -50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 55px;
-    height: 26px;
+    width: 60px;
+    height: 30px;
     border-radius: 50px;
     background: var(--color-primary-btn, #ffe5eb);
     border: 1.5px solid black;
     z-index: var(--z-sticker-handle);
+}
+.toolbar-divider {
+    width: 0.5px;
+    height: 16px;
+    background: black;
+    opacity: 0.3;
 }
 .sticker-copy-btn {
     width: 100%;
