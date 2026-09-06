@@ -27,7 +27,7 @@
             <div class="polaroid-card card p-3 text-left">
                 Recent Polaroids
                 <p class="polaroid-card-placeholder text-center">
-                     <NullIndicator /> no polaroids yet
+                     <NullIcon /> no polaroids yet
                 </p>
             </div>
         </div>
@@ -39,7 +39,7 @@
 <script>
 import TopHeader from "@components/TopHeader.vue";
 import FloatingPolaroids from "@components/FloatingPolaroids.vue";
-import NullIndicator from "@components/svgs/NullIndicator.vue";
+import NullIcon from "@components/svgs/NullIcon.vue";
 import logo from "@assets/images/logo.svg";
 import homeBg from "@assets/images/home-bg.svg";
 import homeFloatingPolaroid1 from "@assets/images/home-floating-polaroid-01.svg";
@@ -52,7 +52,7 @@ export default {
     name: "HomePage",
     components: {
         TopHeader,
-        NullIndicator,
+        NullIcon,
         FloatingPolaroids,
     },
     setup() {

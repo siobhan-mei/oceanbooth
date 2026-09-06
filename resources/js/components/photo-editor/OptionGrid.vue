@@ -10,7 +10,7 @@
                 aria-label="Scroll left"
                 @click="scrollByAmount(-1)"
             >
-                <ChevronButton/>
+                <ChevronIcon/>
             </button>
 
             <div
@@ -37,20 +37,20 @@
                 aria-label="Scroll right"
                 @click="scrollByAmount(1)"
             >
-                <ChevronButton class="icon-flip" />
+                <ChevronIcon class="icon-flip" />
             </button>
         </div>
     </div>
 </template>
 
 <script>
-import ChevronButton from "@components/svgs/ChevronButton.vue";
+import ChevronIcon from "@components/svgs/ChevronIcon.vue";
 import { usePointerDrag } from "@composables/usePointerDrag";
 
     export default {
         name: "OptionGrid",
         components: {
-            ChevronButton,
+            ChevronIcon,
         },
         setup() {
             const { start } = usePointerDrag();

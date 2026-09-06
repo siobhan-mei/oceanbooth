@@ -12,7 +12,7 @@
     </svg>
 </template>
 
-<script>
+<script>   
 export default {
     name: "CopyIcon",
 }

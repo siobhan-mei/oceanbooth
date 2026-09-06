@@ -13,6 +13,6 @@
 </template>
 <script>
 export default {
-    name: "SnapPhoto",
+    name: "SnapPhotoIcon",
 };
 </script>

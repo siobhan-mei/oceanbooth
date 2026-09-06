@@ -7,7 +7,7 @@
                     aria-label="Close"
                     @click="handleCancel"
                 >
-                <CloseButton />
+                <CloseIcon />
             </button>
 
             <h5 class="modal-title">Crop your photo</h5>
@@ -25,7 +25,7 @@
 
             <div class="modal-actions">
                 <button class="btn pink-button reset-button" @click="handleReset">
-                    <ResetButton />
+                    <ResetIcon />
                 </button>
                 <button class="btn pink-button" @click="handleCancel">
                     Cancel
@@ -41,15 +41,15 @@
 
 <script>
 import { Cropper } from "vue-advanced-cropper";
-import CloseButton from "@components/svgs/CloseButton.vue";
-import ResetButton from "@components/svgs/ResetButton.vue";
+import CloseIcon from "@components/svgs/CloseIcon.vue";
+import ResetIcon from "@components/svgs/ResetIcon.vue";
 
 export default {
     name: "PhotoCropperModal",
     components: {
         Cropper,
-        CloseButton,
-        ResetButton,
+        CloseIcon,
+        ResetIcon,
     },
     props: {
         show: { type: Boolean, default: false },

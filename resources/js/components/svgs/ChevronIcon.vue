@@ -1,18 +1,18 @@
 <template>
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        height="18px"
+        height="24px"
         viewBox="0 -960 960 960"
-        width="18px"
+        width="24px"
         fill="currentColor"
     >
         <path
-            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+            d="M560-253.85 333.85-480 560-706.15 602.15-664l-184 184 184 184L560-253.85Z"
         />
     </svg>
 </template>
 <script>
 export default {
-    name: "CloseButton",
-}
+    name: "ChevronIcon",
+};
 </script>

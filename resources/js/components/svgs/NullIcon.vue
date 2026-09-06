@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    name: "NullIndicator",
+    name: "NullIcon",
 };
 </script>
 <style>

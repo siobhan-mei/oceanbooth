@@ -7,7 +7,7 @@
                     aria-label="Close"
                     @click="handleCancel"
                 >
-                    <CloseButton />
+                    <CloseIcon />
                 </button>
                 
                 <h5 class="modal-title">{{ title }}</h5>
@@ -28,14 +28,14 @@
     </Teleport>
 </template>
 <script>
-import CloseButton from "@components/svgs/CloseButton.vue";
+import CloseIcon from "@components/svgs/CloseIcon.vue";
 import clickSfx from "@assets/sfx/click.mp3";
 import { useSound } from "@composables/useSound";
 
 export default {
     name: "ConfirmModal",
     components: {
-        CloseButton
+        CloseIcon
     },
     setup() {
         const { play: playClickSound } = useSound(clickSfx, 0.4);

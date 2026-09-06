@@ -35,7 +35,7 @@
             aria-label="Snap photo"
             @click="$emit('start-capture')"
         >
-            <SnapPhoto style="margin-right: 4px"/> Snap
+            <SnapPhotoIcon style="margin-right: 4px"/> Snap
         </button>
         <div
             v-for="s in placedStickers"
@@ -56,11 +56,11 @@
                     @pointerdown.stop="resize(s, $event)"
                 />
                 <div class="rotate-handle" @pointerdown.stop="startRotate(s, $event)">
-                    <RotateButton />
+                    <RotateIcon />
                 </div>
                 <div class="sticker-toolbar" :style="{ transform: `rotate(${-s.rotation || 0}deg)` }">
                     <div class="sticker-delete-btn" @pointerdown.stop="$emit('delete-sticker', s.uid)">
-                        <DeleteButton />
+                        <DeleteIcon />
                     </div>
                 </div>
             </template>
@@ -68,9 +68,9 @@
     </div>
 </template>
 <script>
-import SnapPhoto from "@components/svgs/SnapPhoto.vue";
-import RotateButton from "@components/svgs/RotateButton.vue";
-import DeleteButton from "@components/svgs/DeleteButton.vue";
+import SnapPhotoIcon from "@components/svgs/SnapPhotoIcon.vue";
+import RotateIcon from "@components/svgs/RotateIcon.vue";
+import DeleteIcon from "@components/svgs/DeleteIcon.vue";
 import defaultSingleFrame from "@assets/images/photo-editor/frames/default-single-frame.svg";
 import defaultDoubleFrame from "@assets/images/photo-editor/frames/default-double-frame.svg";
 import defaultTripleFrame from "@assets/images/photo-editor/frames/default-triple-frame.svg";
@@ -93,9 +93,9 @@ const CORNER_BASE_ANGLE = { tl: 315, tr: 45, br: 135, bl: 225 };
 export default {    
     name: "PhotoPreview",
     components: {
-        SnapPhoto,
-        RotateButton,
-        DeleteButton,
+        SnapPhotoIcon,
+        RotateIcon,
+        DeleteIcon,
     },
     props: {
         templateId: {

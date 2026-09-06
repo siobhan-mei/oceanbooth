@@ -1,7 +1,7 @@
 <template>
     <div class="main-panel">
         <button class="btn blue-button">
-            <PreviewButton class= "me-1" /> Preview here
+            <PreviewIcon class= "me-1" /> Preview here
         </button>
 
         <OptionGrid 
@@ -32,13 +32,13 @@
 <script>
 import { EDITOR_FRAMES, EDITOR_STICKERS } from "@/config/editorPanelAssets.js";
 import OptionGrid from "@components/photo-editor/OptionGrid.vue";
-import PreviewButton from "@components/svgs/PreviewButton.vue";
+import PreviewIcon from "@components/svgs/PreviewIcon.vue";
 
 export default {
     name: "EditorPanel",
     components: {
         OptionGrid,
-        PreviewButton,
+        PreviewIcon,
     },
     emits: ["add-sticker", "sticker-drag-start", "sticker-drag-move", "sticker-drag-end"],
     data() {

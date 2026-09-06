@@ -14,6 +14,6 @@
 
 <script>
 export default {
-    name: "RotateButton",
+    name: "RotateIcon",
 }
 </script>

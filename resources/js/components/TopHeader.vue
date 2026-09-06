@@ -9,7 +9,7 @@
                         aria-label="Go back"
                         @click="handleBack"
                     >
-                        <ChevronButton />
+                        <ChevronIcon />
                     </router-link>
                 </div>
             <div class="card secondary-logo-card">
@@ -23,13 +23,13 @@
     </div>
 </template>
 <script>
-import ChevronButton from "@components/svgs/ChevronButton.vue";
+import ChevronIcon from "@components/svgs/ChevronIcon.vue";
 import logo from "@assets/images/logo.svg";
 
 export default {
     name: "TopHeader",
     components: {
-        ChevronButton,
+        ChevronIcon,
     },
     props: {
         variant: {
