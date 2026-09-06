@@ -63,6 +63,13 @@
                         <CopyIcon />
                     </div>
                     <div class="toolbar-divider"></div>
+                    <div class="sticker-bring-forward-btn" @pointerdown.stop="$emit('bring-forward-sticker', s.uid)">
+                        <ChevronIcon direction="up" />
+                    </div>
+                    <div class="sticker-send-backward-btn" @pointerdown.stop="$emit('send-backward-sticker', s.uid)">
+                        <ChevronIcon direction="down" />
+                    </div>
+                    <div class="toolbar-divider"></div>
                     <div class="sticker-delete-btn" @pointerdown.stop="$emit('delete-sticker', s.uid)">
                         <DeleteIcon />
                     </div>
@@ -74,8 +81,9 @@
 <script>
 import SnapPhotoIcon from "@components/svgs/SnapPhotoIcon.vue";
 import RotateIcon from "@components/svgs/RotateIcon.vue";
-import DeleteIcon from "@components/svgs/DeleteIcon.vue";
 import CopyIcon from "@components/svgs/CopyIcon.vue";
+import ChevronIcon from "@components/svgs/ChevronIcon.vue";
+import DeleteIcon from "@components/svgs/DeleteIcon.vue";
 import defaultSingleFrame from "@assets/images/photo-editor/frames/default-single-frame.svg";
 import defaultDoubleFrame from "@assets/images/photo-editor/frames/default-double-frame.svg";
 import defaultTripleFrame from "@assets/images/photo-editor/frames/default-triple-frame.svg";
@@ -100,8 +108,9 @@ export default {
     components: {
         SnapPhotoIcon,
         RotateIcon,
-        DeleteIcon,
         CopyIcon,
+        ChevronIcon,
+        DeleteIcon,
     },
     props: {
         templateId: {
@@ -146,7 +155,7 @@ export default {
             default: null,
         },
     },
-    emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker", "rotate-sticker", "delete-sticker", "copy-sticker"],
+    emits: ["snap", "start-capture", "video-ref", "move-sticker", "select-sticker", "resize-sticker", "rotate-sticker", "copy-sticker", "bring-forward-sticker", "send-backward-sticker", "delete-sticker"],
     setup() {
         const { start } = usePointerDrag();
         return { startPointerDrag: start };
@@ -415,15 +424,15 @@ export default {
 }
 .sticker-toolbar {
     position: absolute;
-    top: -43px;
+    top: -50px;
     left: 50%;
     translate: -50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
-    height: 30px;
-    border-radius: 50px;
+    width: 116px;
+    height: 32px;
+    border-radius: 12px;
     background: var(--color-primary-btn, #ffe5eb);
     border: 1.5px solid black;
     z-index: var(--z-sticker-handle);
@@ -433,19 +442,13 @@ export default {
     height: 16px;
     background: black;
     opacity: 0.3;
+    flex-shrink: 0;
 }
-.sticker-copy-btn {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-}
-.sticker-delete-btn {        
-    width: 100%;
+.sticker-copy-btn,
+.sticker-bring-forward-btn,
+.sticker-send-backward-btn,
+.sticker-delete-btn {
+    flex: 1;
     height: 100%;
     padding: 0;
     display: flex;

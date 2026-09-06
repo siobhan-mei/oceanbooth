@@ -1,5 +1,6 @@
 <template>
     <svg
+        :style="{ transform: `rotate(${rotationDeg}deg)` }"
         xmlns="http://www.w3.org/2000/svg"
         height="24px"
         viewBox="0 -960 960 960"
@@ -12,7 +13,19 @@
     </svg>
 </template>
 <script>
+const ROTATION = { left: 0, up: 90, right: 180, down: 270 };
+
 export default {
     name: "ChevronIcon",
+    props: {
+        direction: {
+            type: String,
+            default: "left",
+            validator: (v) => v in ROTATION 
+        },
+    },
+    computed: {
+        rotationDeg() { return ROTATION[this.direction] },
+    },
 };
 </script>
